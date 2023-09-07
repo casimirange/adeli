@@ -1,0 +1,124 @@
+<div class="app-header header-shadow bg-alternate header-text-light" [ngClass]="globals.toggleSidebar ? 'closed-sidebar' : ''">
+  <div class="app-header__logo">
+    <div class="logo-src">
+      <img src="assets/images/adeli.jpeg" width="50" alt="">
+    </div>
+    <div class="header__pane ml-auto">
+      <div>
+        <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+                [ngClass]="globals.toggleSidebarMobile ? 'is-active' : ''" (click)="toggleSidebarMobile()">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="app-header__mobile-menu">
+    <div>
+      <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+      </button>
+    </div>
+  </div>
+  <div class="app-header__menu">
+            <span>
+                <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                    <span class="btn-icon-wrapper">
+                        <i class="fa fa-ellipsis-v fa-w-6"></i>
+                    </span>
+                </button>
+            </span>
+  </div>
+  <div class="app-header__content">
+<!--    <div class="app-header-left">-->
+<!--      <div class="search-wrapper">-->
+<!--        <div class="input-holder">-->
+<!--          <input type="text" class="search-input" placeholder="Type to search">-->
+<!--          <button class="search-icon"><span></span></button>-->
+<!--        </div>-->
+<!--        <button class="close"></button>-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="app-header-right">
+
+
+      <div class="header-btn-lg pr-0"*ngIf="isLogged">
+        <div class="widget-content p-0">
+          <div class="widget-content-wrapper">
+            <div class="widget-content-left">
+              <div class="btn-group">
+                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                  <img width="42" class="rounded-circle" src="assets/images/avatar.png" alt="">
+                  <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                </a>
+                <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
+                  <div class="dropdown-menu-header">
+                    <div class="dropdown-menu-header-inner bg-light">
+                      <div class="menu-header-image opacity-2" style="background-color: #FFFFFF"></div>
+                      <div class="menu-header-content text-left">
+                        <div class="widget-content p-0">
+                          <div class="widget-content-wrapper">
+                            <div class="widget-content-left mr-3">
+                              <img width="42" class="rounded-circle" src="assets/images/avatar.png" alt="">
+                            </div>
+                            <div class="widget-content-left">
+                              <div class="widget-heading text-dark">{{lastName | titlecase}}
+                              </div>
+                              <div class="widget-subheading opacity-8 text-dark">{{roleUser | titlecase}}
+                              </div>
+                            </div>
+  <!--                            <div class="widget-content-right mr-2">-->
+  <!--                              <button class="btn-pill btn-shadow btn-shine btn btn-focus" (click)="logout()">Déconnexion</button>-->
+  <!--                            </div>-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="scroll-area-xs" style="height: auto">
+                    <div class="scrollbar-container ps">
+                      <ul class="nav flex-column">
+                        <li class="nav-item-header nav-item" style="cursor: pointer" (click)="showProfile()">
+<<<<<<< HEAD
+                          <span ><i class="pe-7s-user"></i> Voir mon profile</span>
+=======
+                          <span ><i class="pe-7s-user"></i> Modifier mot de passe</span>
+>>>>>>> 37d14d372724acd031f893c0236343c371360e75
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <ul class="nav flex-column">
+                    <li class="nav-item-divider nav-item">
+                    </li>
+                    <li class="nav-item-btn text-center nav-item">
+                      <button class="btn-pill btn-shadow btn-shine btn btn-sm btn-focus" (click)="logout()">Déconnexion</button>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+            <div class="widget-content-left  ml-3 header-user-info">
+              <div class="widget-heading text-white">
+                {{lastName | titlecase}}
+              </div>
+              <div class="widget-subheading text-white">
+                {{roleUser | titlecase}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-btn-lg">
+        <button *ngIf="isLogged" (click)="logout()" type="button"  data-toggle="tooltip" title="se déconnecter"   class="hamburger hamburger--elastic open-right-drawer">
+          <i class="fa fa-sign-out-alt text-white"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
