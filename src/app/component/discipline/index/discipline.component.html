@@ -25,8 +25,8 @@
                 <select name="mag" id="mag" class="form-control form-control-sm mr-3" [(ngModel)]="userFilter"
                         (ngModelChange)="getDiscipline()">
                   <option value="" selected disabled hidden>Sélectionner un membre</option>
-                  <option *ngFor="let user of users.content" ngValue="{{user.userId}}">{{user.firstName | titlecase}}&nbsp;{{user.lastName| titlecase}}</option>
-                  <option value="" disabled *ngIf="!loadUser && users.totalElements == 0">Aucun membre trouvé</option>
+                  <option *ngFor="let user of users?.content" [value]="user.userId">{{user.firstName | titlecase}}&nbsp;{{user.lastName | titlecase}}</option>
+<!--                  <option value="" disabled *ngIf="!loadUser && users.totalElements == 0">Aucun membre trouvé</option>-->
                   <option value="">Tout afficher</option>
                 </select>
               </div>

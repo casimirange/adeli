@@ -20,10 +20,10 @@ export class TokenService {
   constructor(private router: Router, private bnIdle: BnNgIdleService, private modalService: NgbModal) { }
 
   saveToken(token: IToken){
-    let rout = aesUtil.encrypt(key, <string>token.access_token)
-    while (rout.includes('/')){
-      rout = aesUtil.encrypt(key,  <string>token.access_token)
-    }
+    let rout = <string>token.access_token
+    // while (rout.includes('/')){
+    //   rout = aesUtil.encrypt(key,  <string>token.access_token)
+    // }
     localStorage.setItem('bearerToken', rout);
     const date = new Date();
     date.setMinutes(date.getMinutes() + 5);
@@ -45,36 +45,13 @@ export class TokenService {
   }
 
   saveUserInfo(user: ISignup){
-<<<<<<< HEAD
+
     localStorage.setItem('firstName', user.firstName)
     localStorage.setItem('lastName', user.lastName)
     localStorage.setItem('uid', user.userId.toString())
     localStorage.setItem('id', user.userId.toString())
     localStorage.setItem('email', user.email)
     localStorage.setItem('userAccount', user.typeAccount.name.toString())
-=======
-    let uid = aesUtil.encrypt(key, user.internalReference.toString())
-    while (uid.includes('/')){
-      uid = aesUtil.encrypt(key, user.internalReference.toString())
-    }
-    let id = aesUtil.encrypt(key, user.userId.toString())
-    while (id.includes('/')){
-      id = aesUtil.encrypt(key, user.userId.toString())
-    }
-    let store = aesUtil.encrypt(key, user.iStore)
-    while (store.includes('/')){
-      store = aesUtil.encrypt(key, user.iStore)
-    }
-    localStorage.setItem('firstName', aesUtil.encrypt(key, user.firstName))
-    localStorage.setItem('lastName', aesUtil.encrypt(key, user.lastName))
-    localStorage.setItem('uid', uid)
-    localStorage.setItem('id', id)
-    localStorage.setItem('store', store)
-  }
-
-  saveUserAccount(account: any){
-    localStorage.setItem('userAccount', aesUtil.encrypt(key, account.toString()))
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
   }
 
   userInactivity(){
@@ -87,10 +64,10 @@ export class TokenService {
   }
 
   saveRefreshToken(token: string){
-    let rout = aesUtil.encrypt(key, token)
-    while (rout.includes('/')){
-      rout = aesUtil.encrypt(key, token)
-    }
+    let rout = token
+    // while (rout.includes('/')){
+    //   rout = aesUtil.encrypt(key, token)
+    // }
     localStorage.setItem('bearerToken', rout);
 
     new IdleTimer({
@@ -149,13 +126,7 @@ export class TokenService {
     localStorage.removeItem('firstName')
     localStorage.removeItem('lastName')
     localStorage.removeItem('uid')
-<<<<<<< HEAD
     localStorage.removeItem('id')
-=======
-    localStorage.removeItem('store')
-    localStorage.removeItem('id')
-    localStorage.removeItem('_expiredTime')
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
     // localStorage.setItem('roles', <string>token.roles);
     this.router.navigate(['auth']);
     // this.bnIdle.stopTimer()
@@ -178,7 +149,7 @@ export class TokenService {
   }
 
   isLogged(): boolean{
-    const token = localStorage.getItem(('bearerToken')) ? aesUtil.decrypt(key, localStorage.getItem(('bearerToken'))).toString() : null
+    const token = localStorage.getItem('bearerToken') ? localStorage.getItem('bearerToken') : null
     return !! token;
   }
 
@@ -188,7 +159,7 @@ export class TokenService {
   }
 
   getToken(): string | null{
-    return localStorage.getItem('bearerToken') ? aesUtil.decrypt(key, localStorage.getItem('bearerToken')).toString() : null;
+    return localStorage.getItem('bearerToken') ? localStorage.getItem('bearerToken') : null;
   }
 
   public getAuthorities(): string[] {

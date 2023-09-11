@@ -41,28 +41,17 @@
         <div class="menu-header-subtitle">
           <div role="group" class="btn-group-sm btn-group">
             <form class="form-row">
-              <div class="position-relative form-group mr-2" >
-                <label for="mag" class="text-dark font-weight-bold">Filtrer par magasin</label>
-                <select name="mag" id="mag" class="form-control form-control-sm mr-3" [(ngModel)]="storeFilter" (ngModelChange)="getUsers()" >
-                  <option value="" selected disabled hidden>Choix magasin</option>
-                  <option *ngFor="let store of stores" ngValue="{{store.internalReference}}">{{store.localization}}</option>
-                  <option value="" disabled *ngIf="!load && !stores.length">Aucun magasin trouvé</option>
-                  <option value="">Tout afficher</option>
-                </select>
-              </div>
               <div class="position-relative form-group  mr-2 ">
                 <label for="account" class="text-dark font-weight-bold">Filtrer par type de compte</label>
                 <select name="account" id="account" class="form-control form-control-sm mr-3" [(ngModel)]="accountFilter" (ngModelChange)="getUsers()">
                   <option value="" selected disabled hidden>Sélectionner un type de compte</option>-->
-                  <option value="MANAGER_SPACES_1">Gestionnaire espace 1 </option>
-                  <option value="MANAGER_SPACES_2">Gestionnaire espace 2 </option>
-                  <option value="SALES_MANAGER">Directeur Commercial </option>
-                  <option value="COMMERCIAL_ATTACHE">Attaché Commercial </option>
-                  <option value="TREASURY">Caissier/Trésorier</option>
-                  <option value="COMPTABLE">Comptable</option>
-                  <option value="MANAGER_STATION">Gestionnaire de station</option>
-                  <option value="DSI_AUDIT">DSI/AUDIT</option>
-                  <option value="POMPIST">Pompiste</option>
+                  <option value="ADHERANT">ADHERANT </option>
+                  <option value="COMISSAIRE_AU_COMPTE">COMISSAIRE AU COMPTE</option>
+                  <option value="PORTE_PAROLE">PORTE PAROLE </option>
+                  <option value="PRESIDENT">PRESIDENT</option>
+                  <option value="SECRETAIRE">SECRETAIRE</option>
+                  <option value="SENSCEUR">SENSCEUR</option>
+                  <option value="TRESORIER">TRESORIER</option>
                   <option value="">Tout afficher</option>
                 </select>
               </div>
@@ -83,6 +72,11 @@
               <div class="position-relative form-group  mr-2">
                 <label for="lastName" class="text-dark font-weight-bold">Recherche par nom</label>
                 <input type="text" name="lastName" id="lastName" placeholder="Rechercher nom" [(ngModel)]="nameFilter" (ngModelChange)="getUsers()"
+                       class="form-control form-control-sm mr-3">
+              </div>
+              <div class="position-relative form-group  mr-2">
+                <label for="amount" class="text-dark font-weight-bold">Recherche par montant</label>
+                <input type="text" name="amount" id="amount" placeholder="Rechercher montant" [(ngModel)]="storeFilter" (ngModelChange)="getUsers()"
                        class="form-control form-control-sm mr-3">
               </div>
               <!--            <button class="btn btn-sm mr-3 text-primary" (click)="filterOrders()"><i class="fa fa-search"></i></button>-->
@@ -116,19 +110,18 @@
           </tr>
           </thead>
           <tbody>
-<<<<<<< HEAD
-          <tr *ngFor="let user of users | paginate: { id: 'users', itemsPerPage: size, currentPage: page, totalItems: totalElements }; let i = index">
+<!--<<<<<<< HEAD-->
+<!--          <tr *ngFor="let user of users | paginate: { id: 'users', itemsPerPage: size, currentPage: page, totalItems: totalElements }; let i = index">-->
+<!--            <td class="text-left">{{i+1}}</td>-->
+<!--            <td class="text-left">{{user.lastName}}</td>-->
+<!--==-->
+          <tr *ngFor="let user of appState.appData.content | paginate: { id: 'allusers0', itemsPerPage: appState.appData.size, currentPage: page, totalItems: appState.appData.totalElements }; let i = index">
             <td class="text-left">{{i+1}}</td>
-            <td class="text-left">{{user.lastName}}</td>
-=======
-          <tr *ngFor="let user of appState.appData.content | paginate: { id: 'allusers0', itemsPerPage: appState.appData.size, currentPage: page, totalItems: appState.appData.totalElements }">
-            <td class="text-left">{{user.internalReference}}</td>
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
             <td class="text-left">{{user.firstName}}</td>
             <td class="text-left">{{user.lastName}}</td>
             <td class="text-left">{{user.email}}</td>
             <td class="text-left">{{user.telephone }}</td>
-            <td class="text-left">{{user.montant }} €</td>
+            <td class="text-left">{{user.montant | number}} €</td>
             <td class="text-left">{{user.typeAccount.name}}</td>
             <td class="text-left">
               <span class="mb-2 mr-2 badge " [ngClass]="user.status.name == 'USER_ENABLED' ? 'badge-success' : 'badge-danger'">

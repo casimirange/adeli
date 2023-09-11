@@ -19,11 +19,7 @@
                 <div class="timer text-danger" *ngIf="sendNewVerifyCode">Temps écoulé !</div>
               </div>
               <div class="my-4 text-center" *ngIf="!sendNewVerifyCode">
-<<<<<<< HEAD
                 <ng-otp-input (keydown.enter)="inputDigitLeft != 'Vérifier le code' ? '' : verifyOtp()" (onInputChange)="onOtpChange($event)" [config]="{length:5}"></ng-otp-input>
-=======
-                <ng-otp-input (keydown.enter)="inputDigitLeft != 'Vérifier le code' ? '' : verifyOtp()" (onInputChange)="onOtpChange($event)" [config]="{length:4}"></ng-otp-input>
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
               </div>
               <button *ngIf="!sendNewVerifyCode" class="btn btn-lg w-100 mt-3 mb-4 py-3"
                       [disabled]="inputDigitLeft != 'Vérifier le code' || (isLoading$ | async)"

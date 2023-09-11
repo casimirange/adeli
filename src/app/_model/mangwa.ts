@@ -10,5 +10,7 @@ export class Mangwa{
   typeTransaction?: StatusTransaction;
   transaction?: string;
   user: IUser;
+  createdAt: Date;
+  updatedAt: Date;
 }
 

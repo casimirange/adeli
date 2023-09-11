@@ -61,13 +61,28 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   benefForm: FormGroup;
   users: CustomResponse<IUser>;
   amande: Amande = new Amande();
-  pret: Pret ;
+  selectedAmande: Amande = new Amande();
+  pret: Pret  = new Pret();
+  selectedPret: Pret = new Pret();
   beneficiaire: Beneficiaire = new Beneficiaire();
-  discipline: Discipline ;
+  selectedBeneficiaire: Beneficiaire = new Beneficiaire();
+  discipline: Discipline = new Discipline();
+  selectedDiscipline: Discipline = new Discipline();
   soldeState$: Observable<AppState<number>>;
   soldeTontine$: Observable<AppState<number>>;
   sm: number | undefined;
   st: number | undefined;
+  user: string;
+  userPret: string;
+  userAmande: string;
+  pay: any
+  userSanction: string;
+  sanction: string;
+  titleBenef = 'Nouveau Bénéficiaire';
+  titleAmande = 'Nouvelle Amande';
+  titlePret = 'Nouveau Prêt';
+  titleSanction = 'Nouvelle Sanction';
+  pretRembForm: FormGroup ;
   private loadingFile = new BehaviorSubject<boolean>(false);
   constructor(private activatedRoute: ActivatedRoute, private route: ActivatedRoute, private modalService: NgbModal,
               private notifService: NotifsService, private fb: FormBuilder, private _location: Location,
@@ -77,6 +92,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.formAmande()
     this.formPret()
     this.formBenef()
+    this.formMangwa()
     this.formDiscipline()
   }
 
@@ -98,6 +114,12 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.users = resp
       }
     )
+  }
+  formMangwa(){
+    this.pretRembForm = this.fb.group({
+      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      type: ['', ],
+    });
   }
 
   getSoldeMangwas(){
@@ -229,7 +251,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.discipline$ = this.seanceService.showDisciplineBySeance$(+this.IdParam, this.page - 1, this.size)
       .pipe(
         map(response => {
-          console.log('cotisations', response)
+          // console.log('cotisations', response)
           this.dataSubjectsSeanceDiscipline.next(response)
           return {dataState: DataState.LOADED_STATE, appData: response}
         }),
@@ -241,10 +263,10 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   }
 
   getPretBySeance(){
+    // console.log("entée2")
     this.pret$ = this.seanceService.showPretBySeance$(+this.IdParam, this.page - 1, this.size)
       .pipe(
         map(response => {
-          console.log('prets', response)
           this.dataSubjectsSeancePret.next(response)
           return {dataState: DataState.LOADED_STATE, appData: response}
         }),
@@ -317,6 +339,166 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
 
   open(content: any){
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
+  openUpdateBenef(content: any, benef: Beneficiaire){
+    this.selectedBeneficiaire = benef
+    this.user = this.selectedBeneficiaire.user.userId
+    this.titleBenef = 'Modifier Bénéficiaire';
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
+  openUpdateAmande(content: any, amande: Amande){
+    this.selectedAmande = amande
+    this.userAmande = this.selectedAmande.user.userId
+    this.pay = this.selectedAmande.typeTransaction.name == 'DEPOT' ? true : ""
+    this.titleAmande = 'Modifier Amande';
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
+  openUpdatePret(content: any, pret: Pret){
+    this.selectedPret = pret
+    this.userPret = this.selectedPret.user.userId
+    this.titlePret = 'Modifier Prêt';
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
+  openRembourserPret(content: any, pret: Pret){
+    this.selectedPret = pret
+    this.titlePret = 'Rembourser Prêt';
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
+  openUpdateSanction(content: any, sanction: Discipline){
+    this.selectedDiscipline = sanction
+    this.userSanction = this.selectedDiscipline.user.userId
+    this.sanction = this.selectedDiscipline.typeDiscipline.name
+    this.titleSanction = 'Modifier Sanction';
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
+  close(benef: Beneficiaire){
+    Swal.fire({
+      title: 'Supprimer',
+      html: 'Vous êtes sur le point de supprimer le bénéficiaire, continuer? ' ,
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'oui',
+      cancelButtonText: 'non',
+      allowOutsideClick: false,
+      focusConfirm: false,
+      backdrop: `rgba(0, 0, 0, 0.4)`
+    }).then((result) => {
+      if (result.value) {
+        this.deleteBenef(benef.id)
+      }
+    })
+  }
+
+  closeAmande(benef: Amande){
+    Swal.fire({
+      title: 'Supprimer',
+      html: 'Vous êtes sur le point de supprimer l\'amande de '+benef.montant.toString().bold()+' €, continuer? ' ,
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'oui',
+      cancelButtonText: 'non',
+      allowOutsideClick: false,
+      focusConfirm: false,
+      backdrop: `rgba(0, 0, 0, 0.4)`
+    }).then((result) => {
+      if (result.value) {
+        this.deleteAmande(benef.idAmande)
+      }
+    })
+  }
+
+  closeSanction(benef: Discipline){
+    Swal.fire({
+      title: 'Supprimer',
+      html: 'Vous êtes sur le point de supprimer la sanction de '+benef.sanction+', continuer? ' ,
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'oui',
+      cancelButtonText: 'non',
+      allowOutsideClick: false,
+      focusConfirm: false,
+      backdrop: `rgba(0, 0, 0, 0.4)`
+    }).then((result) => {
+      if (result.value) {
+        this.deleteSanction(benef.id)
+      }
+    })
+  }
+
+  closePret(benef: Pret){
+    Swal.fire({
+      title: 'Supprimer',
+      html: 'Vous êtes sur le point de supprimer le prêt de '+benef.montant_prete+' €, continuer? ' ,
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'oui',
+      cancelButtonText: 'non',
+      allowOutsideClick: false,
+      focusConfirm: false,
+      focusDeny: true,
+      backdrop: `rgba(0, 0, 0, 0.4)`
+    }).then((result) => {
+      if (result.value) {
+        this.deletePret(benef.idPret)
+      }
+    })
+  }
+
+  deleteBenef(id: number) {
+    // console.log("youpi")
+    this.seanceService.deleteBeneficiaire(id).subscribe(
+      nex => {
+        this.getCotisationBySeance()
+        this.getBeneficiaireBySeance()
+        this.getSoldeTontine()
+        this.annuler()
+      },
+    );
+  }
+
+  deleteAmande(id: number) {
+    this.seanceService.deleteAmande(id).subscribe(
+      nex => {
+        this.getSoldeMangwas()
+        this.getAmandeBySeance()
+        this.annuler()
+      },
+    );
+  }
+
+  deleteSanction(id: number) {
+    this.seanceService.deleteSanction(id).subscribe(
+      nex => {
+        this.annuler()
+        this.getDisciplineBySeance()
+      },
+    );
+  }
+
+  deletePret(id: number) {
+    this.seanceService.deletePret(id).subscribe(
+      nex => {
+        // console.log("entée")
+        this.getSoldeTontine()
+        this.getPretBySeance()
+        this.getCotisationBySeance()
+        this.annuler()
+      },
+      error => {
+        // console.error(error)
+        this.notifService.onError(error.error.message)
+      }
+    );
   }
 
   createCotisation() {
@@ -394,13 +576,88 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+  updateBenef(){
+    this.isLoading.next(true)
+    this.beneficiaire.idSeance = this.selectedBeneficiaire.idSeance;
+    this.beneficiaire.idUser = +this.benefForm.controls['idUser'].value;
+    this.beneficiaire.montant = +this.benefForm.controls['montant'].value;
+    this.seanceService.updateBeneficiaire(this.beneficiaire, this.selectedBeneficiaire.id).subscribe(
+      res => {
+        this.isLoading.next(false)
+        this.getCotisationBySeance()
+        this.getBeneficiaireBySeance()
+        this.getSoldeTontine()
+        this.annuler()
+      },
+      error => {
+        this.isLoading.next(false)
+      }
+    )
+  }
+
+  updateAmande(){
+    this.isLoading.next(true)
+    this.amande = this.amandeForm.value
+    this.amande.idSeance = +this.IdParam
+    this.seanceService.updateAmande(this.amande, this.selectedAmande.idAmande).subscribe(
+      res => {
+        this.isLoading.next(false)
+        this.getSoldeMangwas()
+        this.getAmandeBySeance()
+        this.annuler()
+      },
+      error => {
+        this.isLoading.next(false)
+      }
+    )
+  }
+
+  updateDiscipline(){
+    this.isLoading.next(true)
+    this.discipline.sanction = this.disciplineForm.controls["sanction"].value
+    this.discipline.idUser = this.disciplineForm.controls["idUser"].value
+    this.discipline.idSeance = +this.IdParam
+    this.seanceService.updateSanction(this.discipline, this.selectedDiscipline.id).subscribe(
+      res => {
+        this.isLoading.next(false)
+        this.getDisciplineBySeance()
+        this.annuler()
+      },
+      error => {
+        this.isLoading.next(false)
+      }
+    )
+  }
+
+  updatePret(){
+    this.isLoading.next(true)
+    this.pret.idSeance = +this.IdParam
+    this.pret.idUser = +this.pretForm.controls['idUser'].value;
+    this.pret.montant_prete = +this.pretForm.controls['montant'].value;
+    this.seanceService.updatePret(this.pret, this.selectedPret.idPret).subscribe(
+      res => {
+        this.isLoading.next(false)
+        this.getSoldeTontine()
+        this.getPretBySeance()
+        this.getCotisationBySeance()
+        this.annuler()
+      },
+      error => {
+        this.isLoading.next(false)
+      }
+    )
+  }
   //save carton
+
   saveDiscipline(){
     this.isLoading.next(true)
     this.discipline.sanction = this.disciplineForm.controls["sanction"].value
+    this.discipline.idUser = this.disciplineForm.controls["idUser"].value
+    this.discipline.idSeance = +this.IdParam
     // this.mangwa.transaction = "RETRAIT"
 
-    this.seanceService.createDiscipline(+this.IdParam, +this.disciplineForm.controls["idUser"].value, this.disciplineForm.controls["sanction"].value, this.discipline ).subscribe(
+    this.seanceService.createDiscipline(this.discipline).subscribe(
       res => {
         this.isLoading.next(false)
         this.getDisciplineBySeance()
@@ -417,11 +674,20 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.formBenef()
     this.formPret()
     this.formDiscipline()
+    this.formMangwa()
     this.modalService.dismissAll()
+    this.selectedBeneficiaire = new Beneficiaire();
+    this.selectedAmande = new Amande();
+    this.selectedPret = new Pret();
+    this.selectedDiscipline = new Discipline();
+    this.titleBenef = 'Nouveau Bénéficiaire';
+    this.titleAmande = 'Nouvelle Amande';
+    this.titlePret = 'Nouveau Prêt';
+    this.titleSanction = 'Nouvelle Sanction';
   }
 
   ngOnDestroy(): void {
-    this.userService.getUserss().subscribe().unsubscribe()
+    // this.userService.getUserss().subscribe().unsubscribe()
   }
 
   endSeance() {
@@ -454,5 +720,31 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
 
   back() {
     this._location.back()
+  }
+
+  rembourser(){
+    this.isLoading.next(true)
+
+    this.pret.idSeance = +this.IdParam
+    // this.pret.idUser = +this.pretForm.controls['idUser'].value;
+    this.pret.montant_rembourse = +this.pretRembForm.controls['montant'].value;
+
+    // this.pret.idUser = this.selectedPret.idUser
+    // this.pret.dateRemboursement = this.pretRembForm.controls['date'].value
+    // this.pret.montant_rembourse = this.pretRembForm.controls['montant'].value
+    this.pret.total = this.pretRembForm.controls['type'].value
+    this.seanceService.rembourserPret(this.pret, this.selectedPret.idPret).subscribe(
+      nex =>{
+          this.annuler()
+          this.isLoading.next(false)
+          this.notifService.onSuccess("prêt remboursé")
+          this.getPretBySeance()
+          this.getCotisationBySeance()
+          this.getSoldeTontine()
+        },
+      error => {
+        this.isLoading.next(false)
+      }
+      )
   }
 }

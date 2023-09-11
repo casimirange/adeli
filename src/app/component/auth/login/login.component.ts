@@ -58,24 +58,12 @@ export class LoginComponent implements OnInit {
   login() {
 
     this.isLoading.next(true);
-<<<<<<< HEAD
     this.credentials.login = this.loginForm.controls['username'].value;
     this.credentials.password = this.loginForm.controls['password'].value;
     this.authService.login(this.credentials).subscribe(
       (data) => {
         this.user = data;
         this.tokenService.saveToken(data);
-=======
-    // this.credentials.login = this.loginForm.controls['username'].value;
-    // this.credentials.password = this.loginForm.controls['password'].value;
-
-    this.credentials.login = aesUtil.encrypt(key, this.loginForm.controls['username'].value).toString();
-    this.credentials.password = aesUtil.encrypt(key, this.loginForm.controls['password'].value).toString();
-
-    this.authService.login(this.credentials).subscribe(
-      (response) => {
-        this.tokenService.saveToken(JSON.parse(aesUtil.decrypt(key,response.key.toString())) as IToken);
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
         this.tokenService.saveEmail(this.credentials.login);
         this.isLoading.next(false);
         this.isLoginFailed = false;
@@ -83,10 +71,6 @@ export class LoginComponent implements OnInit {
       },
       (error: any) => {
         this.errorMessage = error.error.error[0];
-<<<<<<< HEAD
-        this.count += this.count
-=======
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
         this.isLoginFailed = true;
         this.isLoading.next(false);
       }

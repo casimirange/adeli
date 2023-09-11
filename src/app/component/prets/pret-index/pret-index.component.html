@@ -29,7 +29,7 @@
                 <!--                <label for="mag" class="text-dark font-weight-bold">Membre</label>-->
                 <select name="mag" id="mag" class="form-control form-control-sm mr-3" [(ngModel)]="userFilter" (ngModelChange)="getPrets()" >
                   <option value="" selected disabled hidden>Sélectionner un membre</option>
-                  <option *ngFor="let user of users.content" ngValue="{{user.userId}}">{{user.firstName | titlecase}}&nbsp;{{user.lastName| titlecase}}</option>
+                  <option *ngFor="let user of users?.content" ngValue="{{user.userId}}">{{user.firstName | titlecase}}&nbsp;{{user.lastName| titlecase}}</option>
                   <option value="" disabled *ngIf="!loadUser && users.totalElements == 0">Aucun membre trouvé</option>
                   <option value="">Tout afficher</option>
                 </select>
@@ -77,7 +77,7 @@
                 <th>Statut</th>
                 <th>Date de création</th>
                 <th>Date de modification</th>
-                <th class="text-center">Action</th>
+<!--                <th class="text-center">Action</th>-->
               </tr>
               </thead>
               <tbody
@@ -86,29 +86,35 @@
                 <td>{{i + 1}}</td>
                 <td>{{pret.seance.date |date: 'dd-MM-yyyy'}}</td>
                 <td>{{pret.user.firstName | titlecase}}&nbsp;{{pret.user.lastName | titlecase}}</td>
-                <td>{{pret.montant_prete}}&nbsp;€</td>
-                <td>{{pret.montant_rembourse}}&nbsp;€</td>
+<!--                <td>{{pret.montant_prete}}&nbsp;€</td>-->
+                <td  class="text-left font-weight-bold text-danger" >
+                  <span><i class="fa fa-arrow-down"></i>&nbsp;{{pret.montant_prete | number: '1.2-2'}}&nbsp;€</span>
+                </td>
+                <td  class="text-left font-weight-bold" [ngClass]="pret.typeTransaction.name != 'PRET' ? 'text-success' : 'text-warning'">
+                  <span><i class="fa " [ngClass]="pret.typeTransaction.name != 'PRET' ? 'fa-arrow-up' : 'fa-minus'"></i>&nbsp;{{pret.montant_rembourse | number: '1.2-2'}}&nbsp;€</span>
+                </td>
+<!--                <td>{{pret.montant_rembourse}}&nbsp;€</td>-->
                 <td>{{pret.dateRemboursement | date: 'dd-MM-yyyy'}}</td>
                 <td>{{pret.typeTransaction.name}}</td>
                 <td>{{pret.statutPret.name}}</td>
                 <td>{{pret.createdAt | date: 'dd-MM-yyyy à HH:mm'}}</td>
                 <td>{{pret.updatedAt | date: 'dd-MM-yyyy à HH:mm'}}</td>
-                <td>
-                  <button class="btn btn-sm btn-secondary mr-2" data-toggle="tooltip" title="détails de la séance">
-                    <i class="pe-7s-pen"></i>
-                    modifier
-                  </button>
-                  <button class="btn btn-sm btn-primary mr-2" (click)="open(mymodal); selectedPret = pret"
-                          *ngIf="pret.typeTransaction.name === 'PRET'" data-toggle="tooltip" title="rembourser le prêt">
-                    <i class="pe-7s-note"></i>
-                    rembourser
-                  </button>
-                  <button class="btn btn-sm btn-danger mr-2"
-                          data-toggle="tooltip" title="supprimer le prêt">
-                    <i class="pe-7s-trash"></i>
-                    supprimer
-                  </button>
-                </td>
+<!--                <td>-->
+<!--                  <button class="btn btn-sm btn-secondary mr-2" data-toggle="tooltip" title="détails de la séance">-->
+<!--                    <i class="pe-7s-pen"></i>-->
+<!--                    modifier-->
+<!--                  </button>-->
+<!--                  <button class="btn btn-sm btn-primary mr-2" (click)="open(mymodal); selectedPret = pret"-->
+<!--                          *ngIf="pret.typeTransaction.name === 'PRET'" data-toggle="tooltip" title="rembourser le prêt">-->
+<!--                    <i class="pe-7s-note"></i>-->
+<!--                    rembourser-->
+<!--                  </button>-->
+<!--                  <button class="btn btn-sm btn-danger mr-2"-->
+<!--                          data-toggle="tooltip" title="supprimer le prêt">-->
+<!--                    <i class="pe-7s-trash"></i>-->
+<!--                    supprimer-->
+<!--                  </button>-->
+<!--                </td>-->
             </table>
             <div class="text-center">
               <p *ngIf="!appState.appData.content.length" style="color: grey; font-size: 1.8rem;" class="mx-auto">Aucun prêt trouvé !</p>

@@ -29,7 +29,7 @@
 <!--                <label for="mag" class="text-dark font-weight-bold">Membre</label>-->
                 <select name="mag" id="mag" class="form-control form-control-sm mr-3" [(ngModel)]="userFilter" (ngModelChange)="getAmande()" >
                   <option value="" selected disabled hidden>Sélectionner un membre</option>
-                  <option *ngFor="let user of users.content" ngValue="{{user.userId}}">{{user.firstName | titlecase}}&nbsp;{{user.lastName| titlecase}}</option>
+                  <option *ngFor="let user of users?.content" ngValue="{{user.userId}}">{{user.firstName | titlecase}}&nbsp;{{user.lastName| titlecase}}</option>
                   <option value="" disabled *ngIf="!loadUser && users.totalElements == 0">Aucun membre trouvé</option>
                   <option value="">Tout afficher</option>
                 </select>
@@ -85,7 +85,7 @@
                 <td>{{amande.date |date: 'dd-MM-yyyy'}}</td>
                 <td>{{amande.user.firstName | titlecase}}&nbsp;{{amande.user.lastName | titlecase}}</td>
                 <td  class="mb-2 mr-2 font-weight-bold" [ngClass]="amande.typeTransaction.name == 'DEPOT' ? 'text-success' : 'text-warning'">
-                  <span><i class="fa" [ngClass]="amande.typeTransaction.name == 'DEPOT' ? 'fa-arrow-up' : 'fa-arrow-right'"></i>&nbsp;{{amande.montant | number: '1.2-2'}}&nbsp;€</span>
+                  <span><i class="fa" [ngClass]="amande.typeTransaction.name == 'DEPOT' ? 'fa-arrow-up' : 'fa-minus'"></i>&nbsp;{{amande.montant | number: '1.2-2'}}&nbsp;€</span>
                 </td>
                 <td>{{amande.motif}}&nbsp;</td>
                 <td>

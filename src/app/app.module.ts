@@ -13,7 +13,7 @@ import {TokenInterceptorProvider} from "./_helpers/token.interceptor";
 import {CopyAndPasteDirective} from './directive/copy-and-paste.directive';
 import {NgOtpInputModule} from "ng-otp-input";
 import {NgxPaginationModule} from "ngx-pagination";
-<<<<<<< HEAD
+
 import {BnNgIdleService} from "bn-ng-idle";
 import {ReactiveFormsModule} from "@angular/forms";
 import { LoaderComponent } from './preloader/loader/loader.component';
@@ -25,17 +25,7 @@ import {
   NgxConnectivityModule
 } from "ngx-connectivity";
 import {LocationStrategy, PathLocationStrategy} from "@angular/common";
-=======
-import {CouponLayoutComponent} from './component/coupons/coupon-layout/coupon-layout.component';
-import {IndexCouponComponent} from './component/coupons/index-coupon/index-coupon.component';
-import {BnNgIdleService} from "bn-ng-idle";
-import {CreditNoteLayoutComponent} from './component/creditNote/credit-note-layout/credit-note-layout.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {LoaderComponent} from './preloader/loader/loader.component';
-import {ConnectionServiceModule} from "ng-connection-service";
-import {TokenService} from "./_services/token/token.service";
-import {ClientModule} from "./component/client/client.module";
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
 
 @NgModule({
   declarations: [
@@ -56,23 +46,11 @@ import {ClientModule} from "./component/client/client.module";
     NgxPaginationModule,
     ReactiveFormsModule,
     ConnectionServiceModule,
-<<<<<<< HEAD
     NgxConnectivityModule
-=======
-    FormsModule,
-    ClientModule,
-    // ClientModule,
-    // FormatDatePipe
-    // SweetAlert2Module.forRoot(),
-    // Ng2SearchPipeModule,
-    // Ng2OrderModule
-    // OnlineStatusModule
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
   ],
   providers: [
     TokenInterceptorProvider,
     BnNgIdleService,
-<<<<<<< HEAD
     { provide: LocationStrategy, useClass: PathLocationStrategy},
     {
       provide: HTTP_INTERCEPTORS,
@@ -80,11 +58,7 @@ import {ClientModule} from "./component/client/client.module";
       multi: true
     },
     InternetConnectivity,
-      HttpConnectivity
-=======
-    TokenService
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
-    // ClientService
+    HttpConnectivity
   ],
   bootstrap: [AppComponent],
   exports: [

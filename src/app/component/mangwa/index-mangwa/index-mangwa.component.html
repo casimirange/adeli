@@ -94,6 +94,7 @@
                 <th>Montant</th>
                 <th>Motif</th>
                 <th>Type de transaction</th>
+                <th>Date création</th>
                 <th>Action</th>
               </tr>
               </thead>
@@ -102,14 +103,19 @@
               <tr>
                 <td>{{i + 1}}</td>
                 <td>{{mangwa.date |date: 'dd-MM-yyyy'}}</td>
-                <td>{{mangwa.user.firstName | titlecase}}</td>
-                <td class="mb-2 mr-2 font-weight-bold" [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'text-success' : 'text-danger'">{{mangwa.montant | number: '1.2-2'}}&nbsp;€</td>
+                <td>{{mangwa.user.firstName | titlecase}}&nbsp;{{mangwa.user.lastName | titlecase}}</td>
+                <td class="mb-2 mr-2 font-weight-bold" [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'text-success' : 'text-danger'">
+                  <span><i class="fa" [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>&nbsp;{{mangwa.montant | number: '1.2-2'}}&nbsp;€</span>
+                </td>
                 <td>{{mangwa.motif}}</td>
                 <td>
                   <span class="badge "
                         [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'badge-success' : 'badge-danger'">
                     {{mangwa.typeTransaction.name}}&nbsp;
                   </span>
+                </td>
+                <td>
+                    {{mangwa.createdAt | date: 'dd-MM-yyyy HH:mm'}}
                 </td>
                 <td></td>
             </table>

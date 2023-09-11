@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {log} from "util";
-import {aesUtil, key} from "../../../_helpers/aes.js";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +8,7 @@ import {aesUtil, key} from "../../../_helpers/aes.js";
 })
 export class DashboardComponent implements OnInit {
 
-  roleUser = aesUtil.decrypt(key, localStorage.getItem('userAccount').toString())
+  roleUser = localStorage.getItem('userAccount')
   role: string[] = []
   constructor() { }
 
@@ -28,7 +27,7 @@ export class DashboardComponent implements OnInit {
 
 
     JSON.parse(localStorage.getItem('Roles').toString()).forEach(authority => {
-      this.role.push(aesUtil.decrypt(key,authority));
+      this.role.push(authority);
     });
     // console.log(this.role)
   }

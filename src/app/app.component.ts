@@ -11,12 +11,8 @@ import {NavigationStart, Router} from "@angular/router";
 import {TokenService} from "./_services/token/token.service";
 import {Location} from "@angular/common";
 import {ConnectionService} from "ng-connection-service";
-<<<<<<< HEAD
-import {HttpConnectivity, InternetConnectivity, NgxConnectivityModule} from "ngx-connectivity";
-=======
 import IdleTimer from "src/app/_helpers/idleTimer.js"
-import {aesUtil} from "./_helpers/aes";
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
 const Toast = Swal.mixin({
   toast: true,
   position: 'bottom-end',
@@ -50,13 +46,12 @@ export class AppComponent implements OnInit, OnDestroy{
   internet_status: Boolean;
 
   constructor(private notifsService: NotifsService, private tokenService: TokenService, private _http: HttpClient, private connectionService: ConnectionService,
-<<<<<<< HEAD
-              private bnIdle: BnNgIdleService, private router: Router, private _location: Location, public internetConnectivity: InternetConnectivity,
-              public httpConnectivity: HttpConnectivity) {
-=======
-              private bnIdle: BnNgIdleService, private router: Router, private _location: Location) {
 
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+              private bnIdle: BnNgIdleService, private router: Router, private _location: Location, ) {
+
+
+
+
     // this.connectionService.monitor().subscribe(isConnected => {
     //   console.log(isConnected)
     //   this.isConnected = isConnected.hasInternetAccess;
@@ -79,9 +74,9 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-<<<<<<< HEAD
+
     // this.connectivityService.n
-=======
+
     this.router.events.subscribe((val) => {
       this.url = this._location.path()
     });
@@ -96,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy{
       });
     }
 
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
     // this.router.events.subscribe((val) => {
     //   // console.log(this._location.path())
     //   this.url = this._location.path()
@@ -142,16 +137,16 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-<<<<<<< HEAD
+
     // this.internetSubscription.unsubscribe();
-=======
+
     this.timer.clear();
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
     // this.networkStatus$.unsubscribe();
   }
 
   // To check internet connection stability
-<<<<<<< HEAD
+
   // checkNetworkStatus() {
   //   this.networkStatus = navigator.onLine;
   //   this.networkStatus$ = merge(
@@ -165,7 +160,7 @@ export class AppComponent implements OnInit, OnDestroy{
   //       this.networkStatus = status;
   //     });
   // }
-=======
+
   checkNetworkStatus() {
     this.networkStatus = navigator.onLine;
     this.networkStatus$ = merge(
@@ -178,6 +173,6 @@ export class AppComponent implements OnInit, OnDestroy{
         this.networkStatus = status;
       });
   }
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
 
 }

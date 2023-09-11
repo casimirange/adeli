@@ -38,8 +38,44 @@ export class SeanceService {
     return this.http.post<any>(environment.beneficiaire, benef)
   }
 
-  createDiscipline(idSeance: number, idUser: number, type: string, sanction: Discipline): Observable<any>{
-    return this.http.post<any>(environment.discipline + `?user=${idUser}&seance=${idSeance}&type=${type}`, sanction)
+  updateBeneficiaire(benef: Beneficiaire, id: number): Observable<any>{
+    return this.http.put<any>(environment.beneficiaire + `/${id}`, benef)
+  }
+
+  updateAmande(benef: Amande, id: number): Observable<any>{
+    return this.http.put<any>(environment.amande + `/${id}`, benef)
+  }
+
+  updatePret(benef: Pret, id: number): Observable<any>{
+    return this.http.put<any>(environment.pret + `/${id}`, benef)
+  }
+
+  rembourserPret(benef: Pret, id: number): Observable<any>{
+    return this.http.put<any>(environment.pret + `/rembourser/${id}`, benef)
+  }
+
+  updateSanction(sanction: Discipline, id: number): Observable<any>{
+    return this.http.put<any>(environment.discipline + `/${id}`, sanction)
+  }
+
+  deleteBeneficiaire(id: number): Observable<any>{
+    return this.http.delete<any>(environment.beneficiaire + `/${id}`)
+  }
+
+  deleteAmande(id: number): Observable<any>{
+    return this.http.delete<any>(environment.amande + `/${id}`)
+  }
+
+  deletePret(id: number): Observable<any>{
+    return this.http.delete<any>(environment.pret + `/${id}`)
+  }
+
+  deleteSanction(id: number): Observable<any>{
+    return this.http.delete<any>(environment.discipline + `/${id}`)
+  }
+
+  createDiscipline(sanction: Discipline): Observable<any>{
+    return this.http.post<any>(environment.discipline , sanction)
   }
 
   addSeance$ = (seance: Seance) => <Observable<Seance>>

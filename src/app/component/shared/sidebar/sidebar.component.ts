@@ -2,7 +2,6 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {ConfigOptions} from "../../../configOptions/config-options";
 import {Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {aesUtil, key} from "../../../_helpers/aes.js";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +9,7 @@ import {aesUtil, key} from "../../../_helpers/aes.js";
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  roleUser = aesUtil.decrypt(key,localStorage.getItem('userAccount').toString())
+  roleUser = localStorage.getItem('userAccount')
   public extraParameter: any;
   role: string[] = []
 
@@ -37,13 +36,7 @@ export class SidebarComponent implements OnInit {
       }
     });
 
-<<<<<<< HEAD
-    // console.log(this.globals.toggleSidebar)
-=======
-    JSON.parse(localStorage.getItem('Roles').toString()).forEach(authority => {
-      this.role.push(aesUtil.decrypt(key,authority));
-    });
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
 
     // this.extraParameter = this.activatedRoute.snapshot.firstChild.data.extraParameter;
 

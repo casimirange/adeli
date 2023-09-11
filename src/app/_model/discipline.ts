@@ -3,13 +3,15 @@ import {Session} from "./session";
 import {StatusTransaction} from "./statusTransaction";
 import {Seance} from "./seance";
 
-export interface Discipline{
+export class Discipline{
     id?:	number
-    sanction:	string
+    idUser?:	number
+    idSeance?:	number
+    sanction?:	string
     typeDiscipline?: StatusTransaction
-    user:	IUser
-    seance:	Seance
-    date:	Date
+    user?:	IUser
+    seance?:	Seance
+    date?:	Date
     createdAt?:	string
     updatedAt?:	string
   }

@@ -5,6 +5,7 @@ import {Seance} from "./seance";
 
 export class Amande{
   id?: number;
+  idAmande?: number;
   montant: number;
   motif: string;
   idSeance: number;

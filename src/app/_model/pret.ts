@@ -4,7 +4,7 @@ import {StatusTransaction} from "./statusTransaction";
 import {Seance} from "./seance";
 import {StatusPret} from "./statusPret";
 
-export interface Pret{
+export class Pret{
   idPret?: number;
   idSeance?: number;
   idUser?: number;
