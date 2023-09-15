@@ -21176,8 +21176,8 @@ legend {
   font-family: 'Font Awesome 5 Free';
   font-style: normal;
   font-weight: 900;
-  src: url(../assets/fonts/fa-solid-900.eot);
-  src: url(../assets/fonts/fa-solid-900d41d.eot?#iefix) format("embedded-opentype"), url(../fonts/fa-solid-900.woff2) format("woff2"), url(../assets/fonts/fa-solid-900.woff) format("woff"), url(../assets/fonts/fa-solid-900.ttf) format("truetype"), url(../assets/fonts/fa-solid-900.svg#fontawesome) format("svg")
+  src: url(../fonts/fa-solid-900.eot);
+  src: url(../fonts/fa-solid-900d41d.eot?#iefix) format("embedded-opentype"), url(../fonts/fa-solid-900.woff2) format("woff2"), url(../assets/fonts/fa-solid-900.woff) format("woff"), url(../assets/fonts/fa-solid-900.ttf) format("truetype"), url(../assets/fonts/fa-solid-900.svg#fontawesome) format("svg")
 }
 
 .fa, .fas {
@@ -41605,11 +41605,11 @@ span.multiselect-native-select select {
   /*-webkit-box-shadow: inset 0 0 6px rgba(74,115,218,1);*/
   border-radius: 10px;
   background-image: -webkit-gradient(linear,
-    left bottom,
-    left top,
+  left bottom,
+  left top,
     /*color-stop(0.44, rgb(255,251,224)),*/
     /*color-stop(0.72, rgb(219,0,50)),*/
-    color-stop(0.86, rgb(255,221,0)));
+  color-stop(0.86, rgb(255,221,0)));
 }
 
 .ng-invalid.ng-dirty{
@@ -41620,19 +41620,19 @@ span.multiselect-native-select select {
 }
 
 /*::ng-deep {*/
-  .ngx-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.ngx-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .ngx-pagination li {
-    border-radius: 50% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
+.ngx-pagination li {
+  border-radius: 50% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
 .ngx-pagination .current,
 .btn-info {
@@ -41642,11 +41642,11 @@ span.multiselect-native-select select {
 }
 
 /*.ngx-pagination :hover {*/
-  /*background: #20e874 !important;*/
-  /*border-radius: 50% !important;*/
-  /*border: transparent !important;*/
+/*background: #20e874 !important;*/
+/*border-radius: 50% !important;*/
+/*border: transparent !important;*/
 /*}*/
-  /*&.small-screen {*/
-  /*  display: none;*/
-  /*}*/
+/*&.small-screen {*/
+/*  display: none;*/
+/*}*/
 /*}*/

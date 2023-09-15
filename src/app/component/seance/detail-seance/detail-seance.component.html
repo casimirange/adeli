@@ -124,7 +124,7 @@
 <!--</ul>-->
 
 <div class="row">
-  <div class="col-md-6 col-xl-4" *ngIf="(soldeState$ | async) as soldeState" [ngSwitch]="soldeState.dataState">
+  <div class="col-md-6 col-xl-3" *ngIf="(soldeState$ | async) as soldeState" [ngSwitch]="soldeState.dataState">
     <div class="card mb-3 widget-content bg-night-fade">
       <div *ngSwitchCase="DataState.LOADING_STATE">
         <div class="ball-clip-rotate">
@@ -142,7 +142,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 col-xl-4" *ngIf="(soldeTontine$ | async) as soldeState" [ngSwitch]="soldeState.dataState">
+  <div class="col-md-6 col-xl-3" *ngIf="(soldeTontine$ | async) as soldeState" [ngSwitch]="soldeState.dataState">
     <div class="card mb-3 widget-content bg-arielle-smile">
       <div *ngSwitchCase="DataState.LOADING_STATE">
         <div class="ball-clip-rotate">
@@ -160,15 +160,33 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 col-xl-4" *ngIf="(soldeTontine$ | async) && (soldeState$ | async)">
-    <div class="card mb-3 widget-content bg-happy-green">
+  <div class="col-md-6 col-xl-3" *ngIf="(soldeProjet$ | async) as soldeState" [ngSwitch]="soldeState.dataState">
+    <div class="card mb-3 widget-content bg-slick-carbon">
+      <div *ngSwitchCase="DataState.LOADING_STATE">
+        <div class="ball-clip-rotate">
+          <div style="background-color: #FFFFFF;"></div>
+        </div>
+      </div>
+      <div class="widget-content-wrapper text-white">
+        <div class="widget-content-left">
+          <div class="widget-heading">Solde Projet</div>
+          <div class="widget-subheading">Montant de la caisse projet</div>
+        </div>
+        <div class="widget-content-right">
+          <div class="widget-numbers text-white"><span>{{soldeState.appData}} €</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3" *ngIf="(soldeTontine$ | async) && (soldeState$ | async)">
+    <div class="card mb-3 widget-content bg-plum-plate">
       <div class="widget-content-wrapper text-white">
         <div class="widget-content-left">
           <div class="widget-heading">Solde Caisse</div>
           <div class="widget-subheading">Montant total en caisse</div>
         </div>
         <div class="widget-content-right">
-          <div class="widget-numbers text-white"><span>{{sm + st}} €</span></div>
+          <div class="widget-numbers text-white"><span>{{sm + st + sp}} €</span></div>
         </div>
       </div>
     </div>
@@ -392,16 +410,16 @@
   <div class="col-md-6">
     <div class="main-card mb-3 card " id="htmlData">
       <div class="card-header">
-        Liste de Sanctions
+        Fond Projet
         <div class="btn-actions-pane-right">
           <div class="btn-sm">
             <button *ngIf="statutSeance != 'TERMINEE'" class="btn btn-primary mr-3" data-toggle="tooltip"
-                    data-placement="left" title="nouvelle discipline" (click)="open(disciplines)">+ discipline
+                    data-placement="left" title="nouvelle discipline" (click)="open(projet)">+ contribution
             </button>
           </div>
         </div>
       </div>
-      <ng-container *ngIf="(discipline$ | async) as discipline" [ngSwitch]="discipline.dataState">
+      <ng-container *ngIf="(projet$ | async) as discipline" [ngSwitch]="discipline.dataState">
         <ng-container *ngSwitchCase="DataState.LOADING_STATE">
           <div class="col-md-12 text-center my-3">
             <div class="ball-clip-rotate">
@@ -414,8 +432,8 @@
             <table class="align-middle mb-0 table table-sm table-borderless table-hover" id="element-pannes">
               <thead>
               <tr>
-                <th class="">Ref#</th>
                 <th class="">Membre</th>
+                <th class="">Montant</th>
                 <th class="">Type</th>
                 <th class="">Date de création</th>
                 <th class="">Action</th>
@@ -424,16 +442,29 @@
               <tbody>
               <tr
                 *ngFor="let discipline of discipline.appData.content | paginate: { id: 'discipline', itemsPerPage: size, currentPage: page, totalItems: discipline.appData.totalElements}; let i = index">
-                <td class="text-left">{{i + 1}}</td>
                 <td class="text-left">{{discipline.user.firstName | titlecase}}</td>
-                <td class="text-left">{{discipline.typeDiscipline.name}}</td>
+                <td class="mb-2 mr-2 font-weight-bold"
+                    [ngClass]="discipline.typeTransaction.name === 'DEPOT' || discipline.typeTransaction.name === 'REMBOURSEMENT' ? 'text-success' : 'text-danger'">
+                  <span>
+                    <i class="fa"
+                       [ngClass]="discipline.typeTransaction.name === 'DEPOT' || discipline.typeTransaction.name === 'REMBOURSEMENT' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>&nbsp;
+                    {{discipline.montant | number: '1.2-2'}}&nbsp;€</span>
+                </td>
+                <td class="text-left">
+                  <span class="badge"
+                        [ngClass]="discipline.typeTransaction.name === 'DEPOT' || discipline.typeTransaction.name === 'REMBOURSEMENT' ? 'badge-success' : 'badge-danger'">
+                    {{discipline.typeTransaction.name }}
+                  </span>
+                </td>
+<!--                <td class="text-left">{{discipline.montant | number}}</td>-->
+<!--                <td class="text-left">{{discipline.typeTransaction.name}}</td>-->
                 <td class="text-left">{{discipline.createdAt | date: 'dd/MM/yyyy à hh:mm'}}</td>
                 <!--                <td class="text-left" >  </td>-->
                 <td class="text-left">
-                  <span class="" style="cursor: pointer" title="modifier" (click)="openUpdateSanction(disciplines, discipline)">
+                  <span class="" style="cursor: pointer" title="modifier" (click)="openUpdateProjet(projet, discipline)">
                     <i class="fa fa-pen text-primary"></i>
                   </span>
-                  <span class="pl-3" style="cursor: pointer" title="supprimer" (click)="closeSanction(discipline)">
+                  <span class="pl-3" style="cursor: pointer" title="supprimer" (click)="closeProjet(discipline)">
                     <i class="fa fa-times-circle text-danger"></i>
                   </span>
                 </td>
@@ -442,6 +473,40 @@
               </tbody>
 
             </table>
+<!--            <table class="align-middle mb-0 table table-sm table-borderless table-hover">-->
+<!--              <thead>-->
+<!--              <tr>-->
+<!--                <th>#</th>-->
+<!--                <th>Date</th>-->
+<!--                <th>Membre</th>-->
+<!--                <th>Montant</th>-->
+<!--                <th>Motif</th>-->
+<!--                <th>Type de transaction</th>-->
+<!--                <th>Date création</th>-->
+<!--                <th>Action</th>-->
+<!--              </tr>-->
+<!--              </thead>-->
+<!--              <tbody-->
+<!--                *ngFor="let mangwa of appState.appData.content | paginate: { id: 'mangwa', itemsPerPage: appState.appData.size, currentPage: page, totalItems: appState.appData.totalElements }; let i = index">-->
+<!--              <tr>-->
+<!--                <td>{{i + 1}}</td>-->
+<!--                <td>{{mangwa.date |date: 'dd-MM-yyyy'}}</td>-->
+<!--                <td>{{mangwa.user.firstName | titlecase}}&nbsp;{{mangwa.user.lastName | titlecase}}</td>-->
+<!--                <td class="mb-2 mr-2 font-weight-bold" [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'text-success' : 'text-danger'">-->
+<!--                  <span><i class="fa" [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>&nbsp;{{mangwa.montant | number: '1.2-2'}}&nbsp;€</span>-->
+<!--                </td>-->
+<!--                <td>{{mangwa.motif}}</td>-->
+<!--                <td>-->
+<!--                  <span class="badge "-->
+<!--                        [ngClass]="mangwa.typeTransaction.name == 'DEPOT' ? 'badge-success' : 'badge-danger'">-->
+<!--                    {{mangwa.typeTransaction.name}}&nbsp;-->
+<!--                  </span>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  {{mangwa.createdAt | date: 'dd-MM-yyyy HH:mm'}}-->
+<!--                </td>-->
+<!--                <td></td>-->
+<!--            </table>-->
             <div class="text-center">
               <p *ngIf="discipline.appData.content.length == 0" style="color: grey; font-size: 1.8rem;" class="mx-auto">
                 Aucune discipline trouvée !</p>
@@ -838,6 +903,125 @@
   </div>
 </ng-template>
 
+<ng-template #projet let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title timeline-title" id="modal-basic-title"><b>{{titleProjet}}</b></h6>
+    <div class="close vertical-timeline-element-content bounce-in" (click)=" modal.close('save click')">
+      <p><i class="fa fa-times"></i></p>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="">
+      <div class="">
+        <form [formGroup]="mangwaForm">
+
+<!--          <div class="position-relative form-group">-->
+<!--            <label for="date1" class="">Date</label>-->
+<!--            <input type="date" id="date1" formControlName="date" class="form-control"-->
+<!--                   placeholder="date de la transaction">-->
+<!--          </div>-->
+<!--          <div-->
+<!--            *ngIf="mangwaForm.controls['date'].invalid && (mangwaForm.controls['date'].dirty || mangwaForm.controls['date'].touched)"-->
+<!--            class="mb-2" style="color: #f65656; font-style: italic;">-->
+<!--            <div *ngIf="mangwaForm.controls['date'].errors?.['required']" class="ml-3">-->
+<!--              la date de la transaction est requise.-->
+<!--            </div>-->
+<!--            <div *ngIf="mangwaForm.controls['date'].errors?.['pattern']" class="ml-3">-->
+<!--              entrez une date valide-->
+<!--            </div>-->
+<!--          </div>-->
+
+          <div class="position-relative form-group">
+            <label for="montant" class="">Montant</label>
+            <input type="text" id="montant" formControlName="montant" class="form-control" ngModel="{{selectedProjet.montant}}"
+                   placeholder="montant de la transaction">
+          </div>
+          <div
+            *ngIf="mangwaForm.controls['montant'].invalid && (mangwaForm.controls['montant'].dirty || mangwaForm.controls['montant'].touched)"
+            class="mb-2" style="color: #f65656; font-style: italic;">
+            <div *ngIf="mangwaForm.controls['montant'].errors?.['required']" class="ml-3">
+              le montant de la transaction est requis.
+            </div>
+            <div *ngIf="mangwaForm.controls['montant'].errors?.['pattern']" class="ml-3">
+              entrez un montant valide
+            </div>
+            <div *ngIf="mangwaForm.controls['montant'].errors?.['min']" class="ml-3">
+              le montat doit être supérieur à 0
+            </div>
+          </div>
+
+          <div class="position-relative form-group">
+            <label for="motif" class="">Motif</label>
+            <input type="text" id="motif" formControlName="motif" class="form-control" ngModel="{{selectedProjet.motif}}"
+                   placeholder="motif de la transaction">
+          </div>
+          <div
+            *ngIf="mangwaForm.controls['motif'].invalid && (mangwaForm.controls['motif'].dirty || mangwaForm.controls['motif'].touched)"
+            class="mb-2" style="color: #f65656; font-style: italic;">
+            <div *ngIf="mangwaForm.controls['motif'].errors?.['required']" class="ml-3">
+              le montif de la transaction est requis.
+            </div>
+            <div *ngIf="mangwaForm.controls['motif'].errors?.['minLength']" class="ml-3">
+              au moins 10 caractères requis
+            </div>
+          </div>
+
+          <div class="position-relative form-group">
+            <label for="tb" class="">Membre</label>
+            <select name="select" id="tb" class="form-control" formControlName="user"  ngModel="{{userProjet}}">
+              <option value="" selected hidden>Sélectionner un membre</option>
+              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>
+            </select>
+          </div>
+          <div
+            *ngIf="mangwaForm.controls['user'].invalid && (mangwaForm.controls['user'].dirty || mangwaForm.controls['user'].touched)"
+            class="mb-2" style="color: #f65656; font-style: italic;">
+            <div *ngIf="mangwaForm.controls['user'].errors?.['required']" class="ml-3">
+              le choix du membre est obligatoire.
+            </div>
+          </div>
+
+          <div class="position-relative form-group">
+            <label for="tb" class="">Transaction</label>
+            <select name="select" id="tb" class="form-control" formControlName="transaction"  ngModel="{{transactionProjet}}">
+              <option value="" selected hidden>Sélectionner une transaction</option>
+              <option value="DEPOT">Ajout</option>
+              <option value="PRET">Prêt</option>
+              <option value="REMBOURSEMENT">Remboursement</option>
+              <option value="RETRAIT">Retrait</option>
+<!--              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>-->
+            </select>
+          </div>
+          <div
+            *ngIf="mangwaForm.controls['user'].invalid && (mangwaForm.controls['user'].dirty || mangwaForm.controls['user'].touched)"
+            class="mb-2" style="color: #f65656; font-style: italic;">
+            <div *ngIf="mangwaForm.controls['user'].errors?.['required']" class="ml-3">
+              le choix du membre est obligatoire.
+            </div>
+          </div>
+          <button class="mt-1 btn btn-secondary float-right ml-3" (click)="annuler()"><i class="pe-7s-back"></i> Annuler
+          </button>
+<!--          <button class="mt-1 btn btn-primary float-right"-->
+<!--                  [disabled]="mangwaForm.invalid || (isLoading$ | async)" (click)="saveProjet()">-->
+<!--            <i *ngIf="isLoading$ | async" class="fa fa-spinner fa-spin"></i>&nbsp;-->
+<!--            <span *ngIf="isLoading$ | async">Enregistrement ...</span>-->
+<!--            <span-->
+<!--              *ngIf="!(isLoading$ | async)">Enregistrer</span>-->
+<!--          </button>-->
+          <button class="mt-1 btn btn-primary float-right"
+                  [disabled]="mangwaForm.invalid || (isLoading$ | async)"
+                  (click)="titleProjet != 'Modifier Contribution' ? saveProjet() : updateProjet()">
+            <i *ngIf="isLoading$ | async" class="fa fa-spinner fa-spin"></i>&nbsp;
+            <span
+              *ngIf="isLoading$ | async">{{titleProjet != 'Modifier Contribution' ? 'Enregistrement ...' : 'Modification ...'}}</span>
+            <span
+              *ngIf="!(isLoading$ | async)">{{titleProjet != 'Modifier Contribution' ? 'Enregistrer' : 'Modifier'}}</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #disciplines let-modal>
   <div class="modal-header">

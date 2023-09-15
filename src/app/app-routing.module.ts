@@ -20,6 +20,8 @@ const routes: Routes = [
   { path: 'profile', loadChildren: () => import('./component/profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard]},
   // Prêts
   { path: 'prets', loadChildren: () => import('./component/prets/prets.module').then(m => m.PretsModule), canActivate: [AuthGuard]},
+  // Projet
+  { path: 'projets', loadChildren: () => import('./component/projet/projet.module').then(m => m.ProjetModule), canActivate: [AuthGuard]},
   // Amande
   { path: 'amandes', loadChildren: () => import('./component/amande/amande.module').then(m => m.AmandeModule), canActivate: [AuthGuard]},
   // Discipline

@@ -10,6 +10,7 @@ import {Discipline} from "../../_model/discipline";
 import {Amande} from "../../_model/amande";
 import {Pret} from "../../_model/pret";
 import {Beneficiaire} from "../../_model/beneficiaire";
+import {Projet} from "../../_model/projet";
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,10 @@ export class SeanceService {
     return this.http.put<any>(environment.discipline + `/${id}`, sanction)
   }
 
+  updateProjet(sanction: Projet, id: number): Observable<any>{
+    return this.http.put<any>(environment.projet + `/${id}`, sanction)
+  }
+
   deleteBeneficiaire(id: number): Observable<any>{
     return this.http.delete<any>(environment.beneficiaire + `/${id}`)
   }
@@ -72,6 +77,10 @@ export class SeanceService {
 
   deleteSanction(id: number): Observable<any>{
     return this.http.delete<any>(environment.discipline + `/${id}`)
+  }
+
+  deleteProjet(id: number): Observable<any>{
+    return this.http.delete<any>(environment.projet + `/${id}`)
   }
 
   createDiscipline(sanction: Discipline): Observable<any>{
@@ -104,6 +113,10 @@ export class SeanceService {
 
   showBenefBySeance$ = (id: number, page: number, size: number) => <Observable<CustomResponse<Beneficiaire>>>
     this.http.get<CustomResponse<Beneficiaire>>(environment.beneficiaire+`/seance/${id}?page=${page}&size=${size}`)
+      .pipe(catchError(this.handleError));
+
+  showProjetBySeance$ = (id: number, page: number, size: number) => <Observable<CustomResponse<Projet>>>
+    this.http.get<CustomResponse<Projet>>(environment.projet+`/seance/${id}?page=${page}&size=${size}`)
       .pipe(catchError(this.handleError));
 
   saveCompteRenduSeance(seanceId: number, file: File): Observable<any>{

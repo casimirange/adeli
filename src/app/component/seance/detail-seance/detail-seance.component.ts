@@ -23,6 +23,8 @@ import {MangwaService} from "../../../_services/mangwa/mangwa.service";
 import {Beneficiaire} from "../../../_model/beneficiaire";
 import {LoaderComponent} from "../../../preloader/loader/loader.component";
 import {Location} from "@angular/common";
+import {ProjetService} from "../../../_services/projet/projet.service";
+import {Projet} from "../../../_model/projet";
 
 @Component({
   selector: 'app-detail-seance',
@@ -33,12 +35,14 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
 
   roleUser = localStorage.getItem('userAccount').toString()
   appState$: Observable<AppState<Seance>>;
+  projet$: Observable<AppState<CustomResponse<Projet>>>;
   cotisation$: Observable<AppState<CustomResponse<Tontine>>>;
   amande$: Observable<AppState<CustomResponse<Amande>>>;
   benef$: Observable<AppState<CustomResponse<Beneficiaire>>>;
   discipline$: Observable<AppState<CustomResponse<Discipline>>>;
   pret$: Observable<AppState<CustomResponse<Pret>>>;
   statutSeance: string | undefined
+  dateSeance: Date | undefined
   readonly DataState = DataState;
   private dataSubjects = new BehaviorSubject<Seance>(null);
   private dataSubjectsSeanceCotisation = new BehaviorSubject<CustomResponse<Tontine>>(null);
@@ -64,34 +68,43 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   selectedAmande: Amande = new Amande();
   pret: Pret  = new Pret();
   selectedPret: Pret = new Pret();
+  projet: Projet = new Projet();
+  selectedProjet: Projet = new Projet();
   beneficiaire: Beneficiaire = new Beneficiaire();
   selectedBeneficiaire: Beneficiaire = new Beneficiaire();
   discipline: Discipline = new Discipline();
   selectedDiscipline: Discipline = new Discipline();
   soldeState$: Observable<AppState<number>>;
   soldeTontine$: Observable<AppState<number>>;
+  soldeProjet$: Observable<AppState<number>>;
   sm: number | undefined;
   st: number | undefined;
+  sp: number | undefined;
   user: string;
   userPret: string;
   userAmande: string;
   pay: any
   userSanction: string;
+  userProjet: string;
+  transactionProjet: string;
   sanction: string;
   titleBenef = 'Nouveau Bénéficiaire';
   titleAmande = 'Nouvelle Amande';
   titlePret = 'Nouveau Prêt';
   titleSanction = 'Nouvelle Sanction';
+  titleProjet = 'Nouvelle Contribution';
   pretRembForm: FormGroup ;
+  mangwaForm: FormGroup ;
   private loadingFile = new BehaviorSubject<boolean>(false);
   constructor(private activatedRoute: ActivatedRoute, private route: ActivatedRoute, private modalService: NgbModal,
               private notifService: NotifsService, private fb: FormBuilder, private _location: Location,
-              private userService: UsersService, private pretService: PretsService, private tontineService: TontineService, private mangwaService: MangwaService,
+              private userService: UsersService, private pretService: PretsService, private tontineService: TontineService, private projetService: ProjetService, private mangwaService: MangwaService,
               private seanceService: SeanceService) {
     this.IdParam = this.route.snapshot.paramMap.get('id');
     this.formAmande()
     this.formPret()
     this.formBenef()
+    this.formProjet()
     this.formMangwa()
     this.formDiscipline()
   }
@@ -102,10 +115,12 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.getDisciplineBySeance()
     this.getBeneficiaireBySeance()
     this.getPretBySeance()
+    this.getProjetBySeance()
     this.getAmandeBySeance()
     this.getUsers()
     this.getSoldeMangwas()
     this.getSoldeTontine()
+    this.getSoldeProjet()
   }
 
   getUsers(){
@@ -119,6 +134,16 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.pretRembForm = this.fb.group({
       montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
       type: ['', ],
+    });
+  }
+
+  //formulaire de création
+  formProjet(){
+    this.mangwaForm = this.fb.group({
+      transaction: ['', [Validators.required]],
+      user: ['', [Validators.required]],
+      motif: ['', [Validators.required, Validators.minLength(10)]],
+      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
     });
   }
 
@@ -141,6 +166,20 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       .pipe(
         map(response => {
           this.st = response
+          return {dataState: DataState.LOADED_STATE, appData: response}
+        }),
+        startWith({dataState: DataState.LOADING_STATE, appData: null}),
+        catchError((error: string) => {
+          return of({dataState: DataState.ERROR_STATE, error: error})
+        })
+      )
+  }
+
+  getSoldeProjet(){
+    this.soldeProjet$= this.projetService.soldeProjet$()
+      .pipe(
+        map(response => {
+          this.sp = response
           return {dataState: DataState.LOADED_STATE, appData: response}
         }),
         startWith({dataState: DataState.LOADING_STATE, appData: null}),
@@ -187,6 +226,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
           // console.log(response)
           this.dataSubjects.next(response)
           this.statutSeance = response.status.name;
+          this.dateSeance = response.date;
           return {dataState: DataState.LOADED_STATE, appData: response}
         }),
         startWith({dataState: DataState.LOADING_STATE, appData: null}),
@@ -268,6 +308,21 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       .pipe(
         map(response => {
           this.dataSubjectsSeancePret.next(response)
+          return {dataState: DataState.LOADED_STATE, appData: response}
+        }),
+        startWith({dataState: DataState.LOADING_STATE, appData: null}),
+        catchError((error: string) => {
+          return of({dataState: DataState.ERROR_STATE, error: error})
+        })
+      )
+  }
+
+  getProjetBySeance(){
+    // console.log("entée2")
+    this.projet$ = this.seanceService.showProjetBySeance$(+this.IdParam, this.page - 1, this.size)
+      .pipe(
+        map(response => {
+          // this.dataSubjectsSeancePret.next(response)
           return {dataState: DataState.LOADED_STATE, appData: response}
         }),
         startWith({dataState: DataState.LOADING_STATE, appData: null}),
@@ -377,6 +432,14 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
   }
 
+  openUpdateProjet(content: any, sanction: Projet){
+    this.selectedProjet = sanction
+    this.userProjet = this.selectedProjet.user.userId
+    this.transactionProjet = this.selectedProjet.typeTransaction.name
+    this.titleProjet = 'Modifier Contribution';
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
+  }
+
   close(benef: Beneficiaire){
     Swal.fire({
       title: 'Supprimer',
@@ -434,6 +497,25 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     })
   }
 
+  closeProjet(benef: Projet){
+    Swal.fire({
+      title: 'Supprimer',
+      html: 'Vous êtes sur le point de supprimer la contribution de '+benef.montant+', continuer? ' ,
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'oui',
+      cancelButtonText: 'non',
+      allowOutsideClick: false,
+      focusConfirm: false,
+      backdrop: `rgba(0, 0, 0, 0.4)`
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProjet(benef.id)
+      }
+    })
+  }
+
   closePret(benef: Pret){
     Swal.fire({
       title: 'Supprimer',
@@ -481,6 +563,16 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       nex => {
         this.annuler()
         this.getDisciplineBySeance()
+      },
+    );
+  }
+
+  deleteProjet(id: number) {
+    this.seanceService.deleteProjet(id).subscribe(
+      nex => {
+        this.annuler()
+        this.getProjetBySeance()
+        this.getSoldeProjet()
       },
     );
   }
@@ -556,6 +648,29 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.isLoading.next(false)
       }
     )
+  }
+
+  saveProjet(){
+    this.isLoading.next(true)
+    this.projet = this.mangwaForm.value
+    // this.projet.transaction = "DEPOT"
+    this.projet.date = this.dateSeance
+    this.projetService.addProjet$(this.projet).subscribe(
+
+      (response ) => {
+          this.annuler()
+          this.getProjetBySeance()
+          this.getSoldeProjet()
+          this.isLoading.next(false)
+          this.notifService.onSuccess("nouvelle contribution effectuée!")
+          return {dataState: DataState.LOADED_STATE, appData: this.dataSubjects.value}
+        }
+        // startWith({dataState: DataState.LOADED_STATE, appData: this.dataSubjects.value}),
+        // catchError((error: string) => {
+        //   this.isLoading.next(false)
+        //   return of({dataState: DataState.ERROR_STATE, error: error})
+        // })
+      )
   }
 
   saveBenef(){
@@ -648,6 +763,24 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+  updateProjet(){
+    this.isLoading.next(true)
+    this.projet = this.mangwaForm.value
+    // this.projet.transaction = "DEPOT"
+    this.projet.date = this.dateSeance
+    this.seanceService.updateProjet(this.projet, this.selectedProjet.id).subscribe(
+      res => {
+        this.isLoading.next(false)
+        this.getSoldeProjet()
+        this.getProjetBySeance()
+        this.annuler()
+      },
+      error => {
+        this.isLoading.next(false)
+      }
+    )
+  }
   //save carton
 
   saveDiscipline(){
@@ -684,6 +817,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.titleAmande = 'Nouvelle Amande';
     this.titlePret = 'Nouveau Prêt';
     this.titleSanction = 'Nouvelle Sanction';
+    this.titleProjet = 'Nouvelle Contribution';
   }
 
   ngOnDestroy(): void {

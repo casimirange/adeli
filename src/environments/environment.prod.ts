@@ -16,5 +16,6 @@ export const environment = {
   discipline: url + 'discipline',
   amande: url + 'amandes',
   pret: url + 'pret',
+  projet: url + 'projet',
   beneficiaire: url + 'beneficiaire',
 };
