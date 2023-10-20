@@ -8,7 +8,7 @@ import {IToken} from "../../../_model/token";
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {DataState} from "../../../_enum/data.state.enum";
 import {NotifsService} from "../../../_services/notifications/notifs.service";
-import {aesUtil, AESUtil, key} from "../../../_helpers/aes.js";
+// import {aesUtil, AESUtil, key} from "../../../_helpers/aes.js";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   credentials: ICredentials = { }
   user?: IToken;
   errorMessage = '';
-
+  firstName: string | null = '';
   // appState$: Observable<AppState<CustomResponseLogin>> = new Observable<AppState<CustomResponseLogin>>();
   private isLoading = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoading.asObservable();
@@ -34,9 +34,7 @@ export class LoginComponent implements OnInit {
   form: any;
   count: number = 0;
   constructor(
-    private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private tokenService: TokenService,
-    private notifsService: NotifsService
-    ) {
+    private fb: FormBuilder, private http: HttpClient, private authService: AuthService, private token: TokenService, private notifService: NotifsService) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*+./;:-]).{8,}$")]],
@@ -61,13 +59,18 @@ export class LoginComponent implements OnInit {
     this.credentials.login = this.loginForm.controls['username'].value;
     this.credentials.password = this.loginForm.controls['password'].value;
     this.authService.login(this.credentials).subscribe(
-      (data) => {
-        this.user = data;
-        this.tokenService.saveToken(data);
-        this.tokenService.saveEmail(this.credentials.login);
-        this.isLoading.next(false);
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
+      (resp) => {
+        this.token.saveRefreshToken(resp.refreshToken);
+        this.token.saveAuthorities(resp.roles)
+        this.token.saveUserInfo(resp.user)
+        this.firstName = localStorage.getItem('firstName')
+        this.notifService.onSuccess(`Bienvenue ${this.firstName}`)
+        // this.user = data;
+        // this.tokenService.saveToken(data);
+        // this.tokenService.saveEmail(this.credentials.login);
+        // this.isLoading.next(false);
+        // this.isLoginFailed = false;
+        // this.isLoggedIn = true;
       },
       (error: any) => {
         this.errorMessage = error.error.error[0];

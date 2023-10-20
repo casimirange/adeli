@@ -27,7 +27,7 @@ const routes: Routes = [
   // Discipline
   { path: 'discipline', loadChildren: () => import('./component/discipline/discipline.module').then(m => m.DisciplineModule), canActivate: [AuthGuard]},
   // User Profile
-  { path: 'profile', loadChildren: () => import('./component/profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard]},
+  // { path: 'profile', loadChildren: () => import('./component/profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard]},
 
   // Page not found
   { path: 'pageNotFound', component: Erreur404Component },

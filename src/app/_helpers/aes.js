@@ -96,6 +96,6 @@ export class AESUtil {
 //     return this.decryptWithIvSalt(salt, iv, passPhrase, encrypted);
 //   }
 }
-//
+
 export const aesUtil = new AESUtil();
 export const key = "0e7cef307ba3195eef26fe5c1c9497f5";

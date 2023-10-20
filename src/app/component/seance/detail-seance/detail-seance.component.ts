@@ -834,9 +834,10 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.notifService.onSuccess('Séance terminée')
         this.loadingFile.next(false)
         this.closeLoader()
-        const file = new Blob([resp], { type: 'application/pdf' });
-        const fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
+        this.getSeanceInfos()
+        // const file = new Blob([resp], { type: 'application/pdf' });
+        // const fileURL = URL.createObjectURL(file);
+        // window.open(fileURL);
       },error => {
         this.loadingFile.next(false)
         this.closeLoader()

@@ -7,7 +7,7 @@ import {AuthService} from "../../../_services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NotifsService} from "../../../_services/notifications/notifs.service";
 import {ResetPassword} from "../../../_model/resetPassword";
-import {aesUtil, key} from "../../../_helpers/aes.js";
+// import {aesUtil, key} from "../../../_helpers/aes.js";
 
 @Component({
   selector: 'app-reset-password',
@@ -56,8 +56,10 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit() {
     this.isLoading.next(true);
     this.credentials.code = this.code;
-    this.credentials.password = aesUtil.encrypt(key, this.forgetForm.controls['password'].value.toString());
-    this.credentials.email = aesUtil.encrypt(key, this.forgetForm.controls['username'].value.toString());
+    // this.credentials.password = aesUtil.encrypt(key, this.forgetForm.controls['password'].value.toString());
+    // this.credentials.email = aesUtil.encrypt(key, this.forgetForm.controls['username'].value.toString());
+    this.credentials.password = this.forgetForm.controls['password'].value;
+    this.credentials.email = this.forgetForm.controls['username'].value;
     this.authService.resetPassword(this.credentials, this.credentials.code).subscribe(
       (data) => {
         // console.log(data)

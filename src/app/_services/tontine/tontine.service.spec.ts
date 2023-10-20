@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import {TontineService} from "./tontine.service";
 
-import { TonineService } from './tontine.service';
-
-describe('TonineService', () => {
-  let service: TonineService;
+describe('TontineService', () => {
+  let service: TontineService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TonineService);
+    service = TestBed.inject(TontineService);
   });
 
   it('should be created', () => {
