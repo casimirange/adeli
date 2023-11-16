@@ -31,12 +31,12 @@ export class AddUserComponent implements OnInit, OnDestroy {
               private notifService: NotifsService) {
     this.signup = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      telephone: ['', [Validators.required, Validators.pattern('^[0-9]'), Validators.minLength(9), Validators.maxLength(9)]],
-      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      telephone: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.minLength(6)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       // username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*+./;:-]).{8,}$")]],
-      firstName: ['', [Validators.required, Validators.minLength(4)]],
-      lastName: ['', [Validators.required, Validators.minLength(4)]],
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3)]],
       typeAccount: ['',],
       roleName: ['',],
     });

@@ -90,10 +90,10 @@ export class IndexSessionComponent implements OnInit {
 
   formSession() {
     this.sessionForm = this.fb.group({
-      mangwa: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      mangwa: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       beginDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      tax: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      tax: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
     });
   }
 

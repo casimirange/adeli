@@ -263,8 +263,8 @@
                     <div *ngIf="form['montant'].errors?.['required']" class="ml-3">
                       le montant est obligatoire.
                     </div>
-                    <div *ngIf="form['montant'].errors?.['minlength']" class="ml-3">
-                      le montant doit comporter au moins 4 caractères..
+                    <div *ngIf="form['montant'].errors?.['min']" class="ml-3">
+                      le montat doit être supérieur à 0
                     </div>
                   </div>
                 </div>

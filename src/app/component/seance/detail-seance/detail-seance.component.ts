@@ -133,7 +133,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   }
   formMangwa(){
     this.pretRembForm = this.fb.group({
-      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       type: ['', ],
     });
   }
@@ -144,7 +144,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       transaction: ['', [Validators.required]],
       user: ['', [Validators.required]],
       motif: ['', [Validators.required, Validators.minLength(10)]],
-      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
     });
   }
 
@@ -193,7 +193,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   formAmande(){
     this.amandeForm = this.fb.group({
       pay: ['', ],
-      montant: ['', [Validators.required, Validators.pattern('^\d+(\.\d{1,2})?$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       motif: ['', [Validators.required, Validators.minLength(4)]],
       idUser: ['', [Validators.required]]
     });
@@ -201,14 +201,14 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
 
   formPret(){
     this.pretForm = this.fb.group({
-      montant: ['', [Validators.required, Validators.pattern('^\d+(\.\d{1,2})?$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       idUser: ['', [Validators.required]]
     });
   }
 
   formBenef(){
     this.benefForm = this.fb.group({
-      montant: ['', [Validators.required, Validators.pattern('^\d+(\.\d{1,2})?$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       idUser: ['', [Validators.required]]
     });
   }

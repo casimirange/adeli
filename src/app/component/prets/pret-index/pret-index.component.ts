@@ -56,7 +56,7 @@ export class PretIndexComponent implements OnInit {
   formMangwa(){
     this.pretForm = this.fb.group({
       date: ['', [Validators.required]],
-      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       type: ['', [Validators.required, ]],
     });
   }

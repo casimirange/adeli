@@ -85,9 +85,7 @@
                     <div *ngIf="form['telephone'].errors?.['required']" class="ml-3">
                       le numéro de téléphone est obligatoire.
                     </div>
-                    <div *ngIf="form['telephone'].errors?.['pattern']" class="ml-3">
-                      Le numéro de téléphone doit comporter 9 chiffres commençant par 2 ou par 6
-                    </div>
+
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -148,8 +146,8 @@
                     <div *ngIf="form['montant'].errors?.['required']" class="ml-3">
                       le montant est obligatoire.
                     </div>
-                    <div *ngIf="form['montant'].errors?.['minlength']" class="ml-3">
-                      le montant doit comporter des chiffres.
+                    <div *ngIf="form['montant'].errors?.['min']" class="ml-3">
+                      le montat doit être supérieur à 0
                     </div>
                   </div>
                 </div>
@@ -187,16 +185,11 @@
 <!--                                                 formControlName="role">-->
                     <select formControlName="roleName" class="form-control form-control-sm">
                       <option value="" selected disabled hidden>Sélectionner un rôle</option>
-<<<<<<< HEAD
+
 <!--                      <option value="ROLE_ADMIN">Admin </option>-->
                       <option value="ROLE_SUPERADMIN">Super admin</option>
                       <option value="ROLE_USER">simple utilisateur</option>
-=======
-                      <option value="ROLE_SUPERADMIN">Administrateur </option>
-<!--                      <option value="ROLE_AGENT">Agent </option>-->
-<!--                      <option value="ROLE_SUPERADMIN">Super admin</option>-->
-                      <option value="ROLE_USER">Simple utilisateur</option>
->>>>>>> 37d14d372724acd031f893c0236343c371360e75
+
                     </select>
                   </div>
                   <div *ngIf="form['roleName'].invalid && (form['roleName'].dirty || form['roleName'].touched)"
