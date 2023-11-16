@@ -20,6 +20,7 @@ export class IndexSessionComponent implements OnInit {
 
   session: Session = new Session();
   sessionForm: FormGroup;
+  sessions: Session[] = []
   appState$: Observable<AppState<CustomResponse<Session>>>;
   readonly DataState = DataState;
   private dataSubjects = new BehaviorSubject<CustomResponse<Session>>(null);
@@ -58,8 +59,9 @@ export class IndexSessionComponent implements OnInit {
     this.appState$ = this.sessionService.sessions$(this.page - 1, this.size)
       .pipe(
         map(response => {
-          console.log(response)
+          // console.log(response)
           this.dataSubjects.next(response)
+          this.sessions = response.content
           this.notifService.onSuccess('chargement des sessions')
           return {dataState: DataState.LOADED_STATE, appData: response}
         }),
@@ -88,10 +90,10 @@ export class IndexSessionComponent implements OnInit {
 
   formSession() {
     this.sessionForm = this.fb.group({
-      mangwa: ['', [Validators.required, Validators.pattern('^[0-9 ]*$')]],
+      mangwa: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       beginDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      tax: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      tax: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
     });
   }
 
@@ -160,11 +162,13 @@ export class IndexSessionComponent implements OnInit {
     this.modalService.open(mymodal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
     this.modalTitle = 'Modifier session'
     this.session = session
+    console.log(session)
   }
 
   updateSession() {
     this.isLoading.next(true)
     let name = this.session.name
+    console.log(this.session)
     this.session = this.sessionForm.value
     this.session.creator = localStorage.getItem('firstName').toString()
     this.appState$ = this.sessionService.updateSession$(this.session, name)

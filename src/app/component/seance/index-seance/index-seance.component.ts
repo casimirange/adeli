@@ -28,11 +28,11 @@ export class IndexSeanceComponent implements OnInit {
   selectedSeance: Seance = new Seance();
   seanceForm: FormGroup;
   crForm: FormGroup;
-
+  date = '';
   page: number = 1;
   totalPages: number;
   totalElements: number;
-  size: number = 3;
+  size: number = 10;
   seanceState$: Observable<AppState<CustomResponse<Seance>>>;
   readonly dataState = DataState;
   private dataSubjects = new BehaviorSubject<CustomResponse<Seance>>(null);
@@ -76,7 +76,7 @@ export class IndexSeanceComponent implements OnInit {
   }
 
   getSeances() {
-    this.seanceState$ = this.seanceService.seances$(this.page - 1, this.size)
+    this.seanceState$ = this.seanceService.seances$(this.date,this.page - 1, this.size)
       .pipe(
         map(response => {
           this.dataSubjects.next(response)
@@ -182,7 +182,7 @@ export class IndexSeanceComponent implements OnInit {
 
   pageChange(event: number) {
     this.page = event
-    this.seanceState$ = this.seanceService.seances$(this.page - 1, this.size)
+    this.seanceState$ = this.seanceService.seances$(this.date,this.page - 1, this.size)
       .pipe(
         map(response => {
           this.dataSubjects.next(response)

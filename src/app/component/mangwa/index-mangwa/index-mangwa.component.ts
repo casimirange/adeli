@@ -58,7 +58,7 @@ export class IndexMangwaComponent implements OnInit {
       date: ['', [Validators.required]],
       user: ['', [Validators.required]],
       motif: ['', [Validators.required, Validators.minLength(10)]],
-      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$'), Validators.min(1)]],
     });
   }
 

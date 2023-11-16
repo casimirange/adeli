@@ -27,6 +27,18 @@
     <div class="main-card mb-3 card " id="htmlData">
       <div class="card-header">
         Liste des séances
+        <div class="btn-actions-pane-right">
+          <div role="group" class="">
+            <form class="form-row">
+              <div class="position-relative  mr-2">
+                <!--                <label for="date" class="text-dark font-weight-bold">Recherche par date</label>-->
+                <input type="date" name="date" id="dates" placeholder="Rechercher date" [(ngModel)]="date"
+                       (ngModelChange)="getSeances()"
+                       class="form-control form-control-sm mr-3">
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
 
       <ng-container class="bg-white" *ngIf="(seanceState$ | async) as seanceState" [ngSwitch]="seanceState.dataState">

@@ -23,13 +23,13 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
                     <a>
-                      <i aria-hidden="true" class="lnr-user"></i> Tenue chez:
+                      <i aria-hidden="true" class="lnr-user"></i> Réceptioniste:
                       &nbsp; {{appState.appData.users.firstName}}
                     </a>
                   </li>
                   <li class="active breadcrumb-item" aria-current="page">
                     <a>
-                      <i class="fa fa-phone"></i>&nbsp;Session de {{appState.appData.session.name}}
+                      <i class="fa fa-calendar"></i>&nbsp;Session de {{appState.appData.session.name}}
                     </a>
                   </li>
                   <li class="active breadcrumb-item" aria-current="page">
@@ -76,24 +76,49 @@
     </div>
   </div>
   <div *ngSwitchCase="DataState.LOADED_STATE">
-    <div class="mbg-3 alert alert-success alert-dismissible fade show" role="alert"
-         *ngIf="benefState.appData.totalElements > 0">
+    <div class="mbg-3 alert alert-success alert-dismissible fade show" role="alert" *ngIf="benefState.appData.totalElements > 0">
       <div *ngFor="let beneficiaire of benefState.appData.content">
-        <span class="pr-2">
+        <div *ngIf="benefState.appData.totalElements == 1">
+          <span class="pr-2">
         <i class="fa fa-user-circle"></i>
         </span>
-        Bénéficiaire de le séance: {{beneficiaire.user.firstName | titlecase}}
+          Bénéficiaire de le séance: {{beneficiaire.user.firstName | titlecase}} {{beneficiaire.user.lastName | titlecase}}
 
-        <div class="pull-right">montant: {{beneficiaire.montant}} €
-          <span class="pl-5" style="cursor: pointer" title="modifier" (click)="openUpdateBenef(benef, beneficiaire)">
+          <div class="pull-right">montant: {{beneficiaire.montant}} €
+            <span *ngIf=" statutSeance != 'TERMINEE'" class="pl-5" style="cursor: pointer" title="modifier" (click)="openUpdateBenef(benef, beneficiaire)">
             <i class="fa fa-pen text-primary"></i>
           </span>
-          <span class="pl-2" style="cursor: pointer" title="supprimer" (click)="close(beneficiaire)">
+            <span *ngIf=" statutSeance != 'TERMINEE'" class="pl-2" style="cursor: pointer" title="supprimer" (click)="close(beneficiaire)">
 <!--          <span class="pl-2" style="cursor: pointer" title="supprimer" (click)="open(delbenef); selectedPret = beneficiaire">-->
             <i class="fa fa-times-circle text-danger"></i>
           </span>
+          </div>
         </div>
       </div>
+        <div *ngIf="benefState.appData.totalElements > 1">
+          <h6>Liste des bénéficiaires</h6>
+          <ol>
+            <li *ngFor="let beneficiaire of benefState.appData.content">
+              <span class="pr-2">
+        <i class="fa fa-user-circle"></i>
+        </span>
+              {{beneficiaire.user.firstName | titlecase}} {{beneficiaire.user.lastName | titlecase}}
+
+              <div class="pull-right">montant: {{beneficiaire.montant}} €
+                <span *ngIf=" statutSeance != 'TERMINEE'" class="pl-5" style="cursor: pointer" title="modifier" (click)="openUpdateBenef(benef, beneficiaire)">
+            <i class="fa fa-pen text-primary"></i>
+          </span>
+                <span *ngIf=" statutSeance != 'TERMINEE'" class="pl-2" style="cursor: pointer" title="supprimer" (click)="close(beneficiaire)">
+<!--          <span class="pl-2" style="cursor: pointer" title="supprimer" (click)="open(delbenef); selectedPret = beneficiaire">-->
+            <i class="fa fa-times-circle text-danger"></i>
+          </span>
+              </div>
+            </li>
+          </ol>
+
+        </div>
+
+
 
     </div>
   </div>
@@ -337,14 +362,14 @@
                 <th class="">Description</th>
                 <th class="">Transaction</th>
                 <th class="">Date de création</th>
-                <th class="">Action</th>
+                <th class="" *ngIf=" statutSeance != 'TERMINEE'">Action</th>
               </tr>
               </thead>
               <tbody>
               <tr
                 *ngFor="let amandes of amandes.appData.content | paginate: { id: 'amande', itemsPerPage: size, currentPage: page, totalItems: amandes.appData.totalElements}; let i = index">
                 <td class="text-left">{{i + 1}}</td>
-                <td class="text-left">{{amandes.user.firstName | titlecase}}</td>
+                <td class="text-left">{{amandes.user.firstName | titlecase}} {{amandes.user.lastName | titlecase}}</td>
 <!--                <td class="text-left">{{amandes.montant }} €</td>-->
                 <td  class="text-left font-weight-bold" [ngClass]="amandes.typeTransaction.name == 'DEPOT' ? 'text-success' : 'text-warning'">
                   <span><i class="fa " [ngClass]="amandes.typeTransaction.name == 'DEPOT' ? 'fa-arrow-up' : 'fa-minus'"></i>&nbsp;{{amandes.montant | number: '1.2-2'}}&nbsp;€</span>
@@ -356,7 +381,7 @@
                   </span>
 <!--                  {{amandes.typeTransaction.name }}</td>-->
                 <td class="text-left">{{amandes.createdAt | date: 'dd/MM/yyyy à hh:mm'}}</td>
-                <td class="text-left">
+                <td class="text-left" *ngIf=" statutSeance != 'TERMINEE'">
 <!--                  <span class="btn btn-sm btn-primary mr-2" (click)="openUpdateAmande(amande, amandes)">-->
 <!--                    <i class="pe-7s-eyedropper" title="modifier"></i>-->
 <!--                  </span>-->
@@ -436,13 +461,13 @@
                 <th class="">Montant</th>
                 <th class="">Type</th>
                 <th class="">Date de création</th>
-                <th class="">Action</th>
+                <th class="" *ngIf=" statutSeance != 'TERMINEE'">Action</th>
               </tr>
               </thead>
               <tbody>
               <tr
                 *ngFor="let discipline of discipline.appData.content | paginate: { id: 'discipline', itemsPerPage: size, currentPage: page, totalItems: discipline.appData.totalElements}; let i = index">
-                <td class="text-left">{{discipline.user.firstName | titlecase}}</td>
+                <td class="text-left">{{discipline.user.firstName | titlecase}} {{discipline.user.lastName | titlecase}}</td>
                 <td class="mb-2 mr-2 font-weight-bold"
                     [ngClass]="discipline.typeTransaction.name === 'DEPOT' || discipline.typeTransaction.name === 'REMBOURSEMENT' ? 'text-success' : 'text-danger'">
                   <span>
@@ -460,7 +485,7 @@
 <!--                <td class="text-left">{{discipline.typeTransaction.name}}</td>-->
                 <td class="text-left">{{discipline.createdAt | date: 'dd/MM/yyyy à hh:mm'}}</td>
                 <!--                <td class="text-left" >  </td>-->
-                <td class="text-left">
+                <td class="text-left" *ngIf=" statutSeance != 'TERMINEE'">
                   <span class="" style="cursor: pointer" title="modifier" (click)="openUpdateProjet(projet, discipline)">
                     <i class="fa fa-pen text-primary"></i>
                   </span>
@@ -540,7 +565,7 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card " id="htmlData">
       <div class="card-header">
-        Liste de prêts
+        Liste de prêts en cours
         <div class="btn-actions-pane-right">
           <div class="btn-sm">
             <button *ngIf="statutSeance != 'TERMINEE'" class="btn btn-primary mr-3" data-toggle="tooltip"
@@ -563,6 +588,7 @@
               <thead>
               <tr>
                 <th class="">Ref#</th>
+                <th>Date</th>
                 <th>Membre</th>
                 <th>Montant Preté</th>
                 <th>Montant Remboursé</th>
@@ -571,14 +597,15 @@
                 <th>Statut</th>
                 <th>Date de création</th>
                 <th>Date de modification</th>
-                <th class="text-center">Action</th>
+                <th class="text-center" *ngIf="statutSeance != 'TERMINEE'">Action</th>
               </tr>
               </thead>
               <tbody>
               <tr
                 *ngFor="let pret of pret.appData.content | paginate: { id: 'pret', itemsPerPage: size, currentPage: page, totalItems: pret.appData.totalElements}; let i = index">
                 <td class="text-left">{{i + 1}}</td>
-                <td>{{pret.user.firstName | titlecase}}</td>
+                <td>{{pret.date }}</td>
+                <td>{{pret.user.firstName | titlecase}} {{pret.user.lastName}}</td>
                 <td>{{pret.montant_prete}}&nbsp;€</td>
                 <td>{{pret.montant_rembourse}}&nbsp;€</td>
                 <td>{{pret.dateRemboursement | date: 'dd-MM-yyyy'}}</td>
@@ -586,7 +613,7 @@
                 <td>{{pret.statutPret?.name}}</td>
                 <td>{{pret.createdAt | date: 'dd-MM-yyyy à HH:mm'}}</td>
                 <td>{{pret.updatedAt | date: 'dd-MM-yyyy à HH:mm'}}</td>
-                <td>
+                <td *ngIf=" statutSeance != 'TERMINEE'">
 <!--                  <button class="btn btn-sm btn-secondary mr-2" data-toggle="tooltip" title="détails de la séance">-->
 <!--                    <i class="pe-7s-pen"></i>-->
 <!--                    modifier-->
@@ -602,10 +629,10 @@
 <!--                    supprimer-->
 <!--                  </button>-->
 
-                  <span class="" style="cursor: pointer" title="modifier" (click)="openUpdatePret(prets, pret)">
+                  <span *ngIf="(pret.date == dateSeance)"  class="" style="cursor: pointer" title="modifier" (click)="openUpdatePret(prets, pret)">
                     <i class="fa fa-pen text-primary"></i>
                   </span>
-                  <span class="pl-3" style="cursor: pointer" title="supprimer" (click)="closePret(pret)">
+                  <span *ngIf="(pret.date == dateSeance)" class="pl-3" style="cursor: pointer" title="supprimer" (click)="closePret(pret)">
                     <i class="fa fa-times-circle text-danger"></i>
                   </span>
                   <span class="pl-3" style="cursor: pointer" title="rembourser" (click)="openRembourserPret(rembp, pret)">
@@ -844,7 +871,7 @@
 
 <ng-template #rembourserpret let-modal>
   <div class="modal-header">
-    <h6 class="modal-title timeline-title" id="modal-basic-title"><b>Rembourser Prêt</b></h6>
+    <h6 class="modal-title timeline-title" id="modal-basic-title"><b>Rembourser Prêt de {{montantPrete}} €</b></h6>
     <div class="close vertical-timeline-element-content bounce-in" (click)=" modal.close('save click')">
       <p><i class="fa fa-times"></i></p>
     </div>
@@ -1179,7 +1206,7 @@
 
 <ng-template #rembp let-modal>
   <div class="modal-header">
-    <h6 class="modal-title timeline-title" id="modal-basic-title"><b>{{titlePret}}</b></h6>
+    <h6 class="modal-title timeline-title" id="modal-basic-title"><b>{{titlePret}} de {{montantPrete}} €</b></h6>
     <div class="close vertical-timeline-element-content bounce-in" (click)=" modal.close('save click')">
       <p><i class="fa fa-times"></i></p>
     </div>
@@ -1206,12 +1233,12 @@
             </div>
           </div>
 
-          <div class="position-relative form-group">
-            <div class="custom-checkbox custom-control">
-              <input type="checkbox" id="exampleCustomCheckbox"  class="custom-control-input" formControlName="type" >
-              <label class="custom-control-label" for="exampleCustomCheckbox">Le remboursement n'est pas total</label>
-            </div>
-          </div>
+<!--          <div class="position-relative form-group">-->
+<!--            <div class="custom-checkbox custom-control">-->
+<!--              <input type="checkbox" id="exampleCustomCheckbox"  class="custom-control-input" formControlName="type" >-->
+<!--              <label class="custom-control-label" for="exampleCustomCheckbox">Le remboursement n'est pas total</label>-->
+<!--            </div>-->
+<!--          </div>-->
 <!--          <div-->
 <!--            *ngIf="pretRembForm.controls['type'].invalid && (pretRembForm.controls['type'].dirty || pretRembForm.controls['type'].touched)"-->
 <!--            class="mb-2" style="color: #f65656; font-style: italic;">-->

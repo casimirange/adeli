@@ -19,8 +19,8 @@ export class SeanceService {
 
   constructor(private http: HttpClient) { }
 
-  seances$ = (page: number, size: number) => <Observable<CustomResponse<Seance>>>
-    this.http.get<CustomResponse<Seance>>(environment.seance + `?page=${page}&size=${size}`,)
+  seances$ = (date: string, page: number, size: number) => <Observable<CustomResponse<Seance>>>
+    this.http.get<CustomResponse<Seance>>(environment.seance + `?date=${date}&page=${page}&size=${size}`,)
       .pipe(catchError(this.handleError));
 
   createTontine(idSeance: number): Observable<any>{

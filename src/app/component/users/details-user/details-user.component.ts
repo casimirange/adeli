@@ -68,8 +68,8 @@ export class DetailsUserComponent implements OnInit, OnDestroy {
               private statusUserService: StatusUserService, private roleUserService: RoleUserService, private _location: Location) {
     this.updateUser = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      telephone: ['', [Validators.required, Validators.pattern('^[2,6][0-9]{8}'), Validators.minLength(9), Validators.maxLength(9) ]],
-      montant: ['', [Validators.required, Validators.pattern('^[0-9 ]*$')]],
+      telephone: ['', [Validators.required, Validators.pattern('^[0-9]'), Validators.minLength(9), Validators.maxLength(9) ]],
+      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
       typeAccount: ['', [Validators.required, Validators.minLength(4)]],
       firstName: ['', [Validators.required, Validators.minLength(4)]],
       lastName: ['', [Validators.required, Validators.minLength(4)]],

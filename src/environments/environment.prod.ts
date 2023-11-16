@@ -1,4 +1,3 @@
-// const url = 'https://api.dev.gulfcamsas.com/api/v1.0/'
 const url = 'http://54.229.221.79:8080/adelispringboot-0.0.1-SNAPSHOT/api/v1.0/'
 export const environment = {
   production: true,

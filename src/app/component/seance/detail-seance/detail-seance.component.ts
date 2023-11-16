@@ -61,6 +61,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   size: number = 10;
   amandeForm: FormGroup;
   pretForm: FormGroup;
+  montantPrete: number
   disciplineForm: FormGroup;
   benefForm: FormGroup;
   users: CustomResponse<IUser>;
@@ -132,7 +133,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   }
   formMangwa(){
     this.pretRembForm = this.fb.group({
-      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$'), Validators.min(1)]],
       type: ['', ],
     });
   }
@@ -143,7 +144,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       transaction: ['', [Validators.required]],
       user: ['', [Validators.required]],
       motif: ['', [Validators.required, Validators.minLength(10)]],
-      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$'), Validators.min(1)]],
     });
   }
 
@@ -192,7 +193,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   formAmande(){
     this.amandeForm = this.fb.group({
       pay: ['', ],
-      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern('^\d+(\.\d{1,2})?$'), Validators.min(1)]],
       motif: ['', [Validators.required, Validators.minLength(4)]],
       idUser: ['', [Validators.required]]
     });
@@ -200,14 +201,14 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
 
   formPret(){
     this.pretForm = this.fb.group({
-      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern('^\d+(\.\d{1,2})?$'), Validators.min(1)]],
       idUser: ['', [Validators.required]]
     });
   }
 
   formBenef(){
     this.benefForm = this.fb.group({
-      montant: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(1)]],
+      montant: ['', [Validators.required, Validators.pattern('^\d+(\.\d{1,2})?$'), Validators.min(1)]],
       idUser: ['', [Validators.required]]
     });
   }
@@ -421,6 +422,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   openRembourserPret(content: any, pret: Pret){
     this.selectedPret = pret
     this.titlePret = 'Rembourser Prêt';
+    this.montantPrete = pret.montant_prete
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'lg'});
   }
 
@@ -600,6 +602,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.isCotise.next(false)
         this.getCotisationBySeance()
         this.getSoldeTontine()
+        this.annuler()
       },
       error => {
         this.isCotise.next(false)
@@ -867,7 +870,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     // this.pret.idUser = this.selectedPret.idUser
     // this.pret.dateRemboursement = this.pretRembForm.controls['date'].value
     // this.pret.montant_rembourse = this.pretRembForm.controls['montant'].value
-    this.pret.total = this.pretRembForm.controls['type'].value
+    // this.pret.total = this.pretRembForm.controls['type'].value
     this.seanceService.rembourserPret(this.pret, this.selectedPret.idPret).subscribe(
       nex =>{
           this.annuler()
