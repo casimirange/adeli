@@ -122,7 +122,7 @@
             <td class="text-left">{{user.email}}</td>
             <td class="text-left">{{user.telephone }}</td>
             <td class="text-left">{{user.montant | number}} €</td>
-            <td class="text-left">{{user.typeAccount.name}}</td>
+            <td class="text-left">{{user.typeAccount.name == "SENSCEUR" ? "PRESIDENT FONDATEUR" : user.typeAccount.name}}</td>
             <td class="text-left">
               <span class="mb-2 mr-2 badge " [ngClass]="user.status.name == 'USER_ENABLED' ? 'badge-success' : 'badge-danger'">
                 {{user.status.name}}

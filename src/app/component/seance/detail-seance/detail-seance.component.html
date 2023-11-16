@@ -754,7 +754,7 @@
             <label for="tb" class="">Membre</label>
             <select name="select" id="tb" class="form-control" formControlName="idUser" ngModel="{{userAmande}}">
               <option value="" selected hidden>Sélectionner un membre</option>
-              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>
+              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName | titlecase}} {{user.lastName | titlecase}}</option>
             </select>
           </div>
           <div
@@ -833,7 +833,7 @@
             <label for="tb" class="">Membre</label>
             <select name="select" id="tb" class="form-control" formControlName="idUser" ngModel="{{userPret}}">
               <option value="" selected hidden>Sélectionner un membre</option>
-              <option *ngFor="let user of users?.content" [value]="user.userId">{{user.firstName}}</option>
+              <option *ngFor="let user of users?.content" [value]="user.userId">{{user.firstName | titlecase}} {{user.lastName | titlecase}}</option>
             </select>
           </div>
           <div
@@ -904,7 +904,7 @@
             <label for="tb" class="">Membre</label>
             <select name="select" id="tb" class="form-control" formControlName="idUser">
               <option value="" selected hidden>Sélectionner un membre</option>
-              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>
+              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName | titlecase}} {{user.lastName | titlecase}}</option>
             </select>
           </div>
           <div
@@ -997,7 +997,7 @@
             <label for="tb" class="">Membre</label>
             <select name="select" id="tb" class="form-control" formControlName="user"  ngModel="{{userProjet}}">
               <option value="" selected hidden>Sélectionner un membre</option>
-              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>
+              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName | titlecase}} {{user.lastName | titlecase}}</option>
             </select>
           </div>
           <div
@@ -1152,7 +1152,7 @@
             <label for="tb" class="">Membre</label>
             <select name="select" id="tb" class="form-control" formControlName="idUser" ngModel="{{user}}">
               <option value="" selected hidden>Sélectionner un membre</option>
-              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>
+              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName | titlecase}} {{user.lastName | titlecase}}</option>
             </select>
           </div>
           <div

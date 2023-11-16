@@ -52,7 +52,7 @@ export class DetailsUserComponent implements OnInit, OnDestroy {
     {name : "PORTE PAROLE" , value : "PORTE_PAROLE"},
     {name : "PRESIDENT" , value : "PRESIDENT"},
     {name : "SECRETAIRE" , value : "SECRETAIRE"},
-    {name : "SENSCEUR" , value : "SENSCEUR"},
+    {name : "PRESIDENT FONDATEUR" , value : "SENSCEUR"},
     {name : "TRESORIER" , value : "TRESORIER"},
   ]
   roles = [
@@ -68,7 +68,7 @@ export class DetailsUserComponent implements OnInit, OnDestroy {
               private statusUserService: StatusUserService, private roleUserService: RoleUserService, private _location: Location) {
     this.updateUser = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      telephone: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.minLength(9), Validators.maxLength(9) ]],
+      telephone: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.minLength(6) ]],
       montant: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), Validators.min(1)]],
       typeAccount: ['', [Validators.required, Validators.minLength(4)]],
       firstName: ['', [Validators.required, Validators.minLength(4)]],
