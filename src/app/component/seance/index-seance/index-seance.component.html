@@ -58,23 +58,23 @@
                 <th>Ref#</th>
                 <th>Date</th>
                 <th>Receptionniste</th>
-                <th>Compte rendu</th>
+<!--                <th>Compte rendu</th>-->
                 <th>Solde</th>
                 <th>Statut</th>
                 <th>Date création</th>
                 <th>Date modification</th>
-                <th class="text-center">Actions</th>
+<!--                <th class="text-center">Actions</th>-->
               </tr>
               </thead>
               <tbody>
-              <tr style="cursor: pointer" *ngFor="let i = index; let seance of seanceState.appData.content
+              <tr style="cursor: pointer" (click)="seanceDetails(seance)" *ngFor="let i = index; let seance of seanceState.appData.content
            | paginate: { id: 'seances', itemsPerPage: seanceState.appData.size, currentPage: page, totalItems: seanceState.appData.totalElements}">
                 <td>{{i + 1}}</td>
                 <td>{{seance.date | date: 'dd/MM/yyyy'}}</td>
                 <td>{{seance.users.firstName | titlecase }}&nbsp;{{seance.users.lastName | titlecase }}</td>
-                <td><a *ngIf="seance.linkCompteRendu" data-toggle="tooltip" title="Télécharger le compte rendu"
-                       class="text-primary" (click)="generateCompteRendu(seance)"><i
-                  class="fa fa-file-pdf text-danger"></i> CR_{{seance.date | date: 'dd/MM/yyyy'}}.pdf</a></td>
+<!--                <td><a *ngIf="seance.linkCompteRendu" data-toggle="tooltip" title="Télécharger le compte rendu"-->
+<!--                       class="text-primary" (click)="generateCompteRendu(seance)"><i-->
+<!--                  class="fa fa-file-pdf text-danger"></i> CR_{{seance.date | date: 'dd/MM/yyyy'}}.pdf</a></td>-->
 <!--                <td>{{seance.status.name}}</td>-->
                 <td class="text-dark font-weight-bold">{{seance.solde}} €</td>
                 <td>
@@ -85,15 +85,15 @@
                 </td>
                 <td>{{seance.createdAt | date: 'dd/MM/yyyy à HH:mm'}}</td>
                 <td>{{seance.updatedAt | date: 'dd/MM/yyyy à HH:mm'}}</td>
-                <td>
-                  <button class="btn btn-sm btn-secondary mr-2" (click)="seanceDetails(seance)" data-toggle="tooltip" title="détails de la séance">
-                    <i class="pe-7s-look"></i>
-                  </button>
-                  <button class="btn btn-sm btn-primary mr-2" (click)="openCompteRenduModal(crModal, seance)"
-                          *ngIf="!seance.linkCompteRendu" data-toggle="tooltip" title="ajouter le compte rendu">
-                    <i class="pe-7s-note"></i>
-                  </button>
-                </td>
+<!--                <td>-->
+<!--                  <button class="btn btn-sm btn-secondary mr-2" (click)="seanceDetails(seance)" data-toggle="tooltip" title="détails de la séance">-->
+<!--                    <i class="pe-7s-look"></i>-->
+<!--                  </button>-->
+<!--                  <button class="btn btn-sm btn-primary mr-2" (click)="openCompteRenduModal(crModal, seance)"-->
+<!--                          *ngIf="!seance.linkCompteRendu" data-toggle="tooltip" title="ajouter le compte rendu">-->
+<!--                    <i class="pe-7s-note"></i>-->
+<!--                  </button>-->
+<!--                </td>-->
               </tr>
 
               </tbody>
