@@ -71,7 +71,7 @@
            | paginate: { id: 'seances', itemsPerPage: seanceState.appData.size, currentPage: page, totalItems: seanceState.appData.totalElements}">
                 <td>{{i + 1}}</td>
                 <td>{{seance.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{seance.users.firstName }}</td>
+                <td>{{seance.users.firstName | titlecase }}&nbsp;{{seance.users.lastName | titlecase }}</td>
                 <td><a *ngIf="seance.linkCompteRendu" data-toggle="tooltip" title="Télécharger le compte rendu"
                        class="text-primary" (click)="generateCompteRendu(seance)"><i
                   class="fa fa-file-pdf text-danger"></i> CR_{{seance.date | date: 'dd/MM/yyyy'}}.pdf</a></td>

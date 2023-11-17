@@ -45,7 +45,7 @@ export class ForgetPasswordComponent implements OnInit {
 
   onSubmit() {
     this.isLoading.next(true);
-    this.credentials.login = aesUtil.encrypt(key, this.forgetForm.controls['username'].value.toString());
+    this.credentials.login = this.forgetForm.controls['username'].value;
     this.authService.forgetPassword(this.credentials).subscribe(
       (data) => {
         this.notifsService.onSuccess(data.message)
@@ -55,7 +55,7 @@ export class ForgetPasswordComponent implements OnInit {
         this.isSend = true
       },
       (error: any) => {
-        console.log(error)
+        // console.log(error)
         this.errorMessage = error.error.error;
         this.isLoading.next(false);
       }
