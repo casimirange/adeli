@@ -11,5 +11,6 @@ export class Seance{
     createdAt?:	string
     updatedAt?:	string
     status: TypeAccount
+    solde? : number
   }
 

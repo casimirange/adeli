@@ -38,6 +38,11 @@
                       [ngClass]="statutSeance === 'TERMINEE' ? 'text-danger' : 'text-sucsess'"> {{appState.appData.status.name}}</span>
                     </a>
                   </li>
+                  <li class="active breadcrumb-item" aria-current="page" >
+                    <a>
+                      <i class="fa fa-money-bill"></i>&nbsp;Solde : <span class="text-success"> {{appState.appData.solde}}&nbsp;€</span>
+                    </a>
+                  </li>
                 </ol>
               </nav>
             </div>
@@ -194,8 +199,8 @@
       </div>
       <div class="widget-content-wrapper text-white">
         <div class="widget-content-left">
-          <div class="widget-heading">Solde Projet</div>
-          <div class="widget-subheading">Montant de la caisse projet</div>
+          <div class="widget-heading">Solde Fond de solidarité</div>
+          <div class="widget-subheading">Montant de la caisse fond de solidarité</div>
         </div>
         <div class="widget-content-right">
           <div class="widget-numbers text-white"><span>{{soldeState.appData}} €</span></div>
@@ -203,15 +208,20 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 col-xl-3" *ngIf="(soldeTontine$ | async) && (soldeState$ | async)">
+  <div class="col-md-6 col-xl-3" *ngIf="(soldeCaisse$ | async) as soldeState"  [ngSwitch]="soldeState.dataState">
     <div class="card mb-3 widget-content bg-plum-plate">
+      <div *ngSwitchCase="DataState.LOADING_STATE">
+        <div class="ball-clip-rotate">
+          <div style="background-color: #FFFFFF;"></div>
+        </div>
+      </div>
       <div class="widget-content-wrapper text-white">
         <div class="widget-content-left">
           <div class="widget-heading">Solde Caisse</div>
-          <div class="widget-subheading">Montant total en caisse</div>
+          <div class="widget-subheading">Montant total en caisse adeli</div>
         </div>
         <div class="widget-content-right">
-          <div class="widget-numbers text-white"><span>{{sm + st + sp}} €</span></div>
+          <div class="widget-numbers text-white"><span>{{soldeState.appData}} €</span></div>
         </div>
       </div>
     </div>

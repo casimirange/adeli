@@ -219,7 +219,7 @@
             <label for="tb" class="">Membre</label>
             <select name="select" id="tb" class="form-control" formControlName="user">
               <option value="" selected hidden>Sélectionner un membre</option>
-              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName}}</option>
+              <option *ngFor="let user of users.content" [value]="user.userId">{{user.firstName | titlecase}}&nbsp;{{user.lastName | titlecase}}</option>
             </select>
           </div>
           <div

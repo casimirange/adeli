@@ -78,6 +78,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
   soldeState$: Observable<AppState<number>>;
   soldeTontine$: Observable<AppState<number>>;
   soldeProjet$: Observable<AppState<number>>;
+  soldeCaisse$: Observable<AppState<number>>;
   sm: number | undefined;
   st: number | undefined;
   sp: number | undefined;
@@ -122,6 +123,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
     this.getSoldeMangwas()
     this.getSoldeTontine()
     this.getSoldeProjet()
+    this.getSoldeCaisse()
   }
 
   getUsers(){
@@ -178,6 +180,20 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
 
   getSoldeProjet(){
     this.soldeProjet$= this.projetService.soldeProjet$()
+      .pipe(
+        map(response => {
+          this.sp = response
+          return {dataState: DataState.LOADED_STATE, appData: response}
+        }),
+        startWith({dataState: DataState.LOADING_STATE, appData: null}),
+        catchError((error: string) => {
+          return of({dataState: DataState.ERROR_STATE, error: error})
+        })
+      )
+  }
+
+  getSoldeCaisse(){
+    this.soldeCaisse$= this.seanceService.soldeCaisse$()
       .pipe(
         map(response => {
           this.sp = response
@@ -545,6 +561,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.getCotisationBySeance()
         this.getBeneficiaireBySeance()
         this.getSoldeTontine()
+        this.getSoldeCaisse()
         this.annuler()
       },
     );
@@ -555,6 +572,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       nex => {
         this.getSoldeMangwas()
         this.getAmandeBySeance()
+        this.getSoldeCaisse()
         this.annuler()
       },
     );
@@ -575,6 +593,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.annuler()
         this.getProjetBySeance()
         this.getSoldeProjet()
+        this.getSoldeCaisse()
       },
     );
   }
@@ -584,6 +603,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       nex => {
         // console.log("entée")
         this.getSoldeTontine()
+        this.getSoldeCaisse()
         this.getPretBySeance()
         this.getCotisationBySeance()
         this.annuler()
@@ -601,6 +621,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       nex => {
         this.isCotise.next(false)
         this.getCotisationBySeance()
+        this.getSoldeCaisse()
         this.getSoldeTontine()
         this.annuler()
       },
@@ -622,6 +643,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.isLoading.next(false)
         this.getAmandeBySeance()
         this.getSoldeMangwas()
+        this.getSoldeCaisse()
         this.annuler()
       },
       error => {
@@ -645,6 +667,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.getPretBySeance()
         this.getCotisationBySeance()
         this.getSoldeTontine()
+        this.getSoldeCaisse()
         this.annuler()
       },
       error => {
@@ -664,6 +687,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
           this.annuler()
           this.getProjetBySeance()
           this.getSoldeProjet()
+        this.getSoldeCaisse()
           this.isLoading.next(false)
           this.notifService.onSuccess("nouvelle contribution effectuée!")
           return {dataState: DataState.LOADED_STATE, appData: this.dataSubjects.value}
@@ -686,6 +710,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.isLoading.next(false)
         this.getCotisationBySeance()
         this.getBeneficiaireBySeance()
+        this.getSoldeCaisse()
         this.getSoldeTontine()
         this.annuler()
       },
@@ -706,6 +731,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.getCotisationBySeance()
         this.getBeneficiaireBySeance()
         this.getSoldeTontine()
+        this.getSoldeCaisse()
         this.annuler()
       },
       error => {
@@ -723,6 +749,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.isLoading.next(false)
         this.getSoldeMangwas()
         this.getAmandeBySeance()
+        this.getSoldeCaisse()
         this.annuler()
       },
       error => {
@@ -758,6 +785,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
         this.isLoading.next(false)
         this.getSoldeTontine()
         this.getPretBySeance()
+        this.getSoldeCaisse()
         this.getCotisationBySeance()
         this.annuler()
       },
@@ -776,6 +804,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
       res => {
         this.isLoading.next(false)
         this.getSoldeProjet()
+        this.getSoldeCaisse()
         this.getProjetBySeance()
         this.annuler()
       },
@@ -877,6 +906,7 @@ export class DetailSeanceComponent implements OnInit, OnDestroy {
           this.isLoading.next(false)
           this.notifService.onSuccess("prêt remboursé")
           this.getPretBySeance()
+        this.getSoldeCaisse()
           this.getCotisationBySeance()
           this.getSoldeTontine()
         },

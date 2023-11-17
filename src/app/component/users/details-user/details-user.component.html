@@ -211,8 +211,11 @@
                     <div *ngIf="form['telephone'].errors?.['required']" class="ml-3">
                       le numéro de téléphone est obligatoire.
                     </div>
+                    <div *ngIf="form['telephone'].errors?.['minlength']" class="ml-3">
+                      le numéro de téléphone doit contenir au moins 6 chiffres.
+                    </div>
                     <div *ngIf="form['telephone'].errors?.['pattern']" class="ml-3">
-                      Le numéro de téléphone doit comporter 9 chiffres commençant par 2 ou par 6
+                      le numéro de téléphone ne commence pas par 0 et contient uniquement des chiffres
                     </div>
                   </div>
                 </div>

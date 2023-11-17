@@ -60,7 +60,13 @@
                 <td>{{client.endDate | date: 'dd/MM/yyyy'}}</td>
                 <td>{{client.mangwa}} €</td>
                 <td>{{client.tax}} %</td>
-                <td>{{client.status.name}}</td>
+<!--                <td>{{client.status.name}}</td>-->
+                <td>
+                  <span class="badge "
+                        [ngClass]="client.status.name == 'CREEE' ? 'badge-success' : 'badge-danger'">
+                    {{client.status.name}}&nbsp;
+                  </span>
+                </td>
                 <td>
                   <!--                    pour supprimer un client-->
 <!--                  <a style="cursor: pointer"  class="delete text-danger" (click)="deleteClient(client, i)" >-->

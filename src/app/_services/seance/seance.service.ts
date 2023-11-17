@@ -95,6 +95,10 @@ export class SeanceService {
     this.http.get<Seance>(environment.seance+`/${id}`)
       .pipe(catchError(this.handleError));
 
+  soldeCaisse$ = () => <Observable<number>>
+    this.http.get<number>(environment.seance + `/solde`,)
+      .pipe(catchError(this.handleError));
+
   showCotisationBySeance$ = (id: number, page: number, size: number) => <Observable<CustomResponse<Tontine>>>
     this.http.get<CustomResponse<Tontine>>(environment.tontine+`/seance/${id}?page=${page}&size=${size}`)
       .pipe(catchError(this.handleError));

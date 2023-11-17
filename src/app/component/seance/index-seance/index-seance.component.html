@@ -59,6 +59,7 @@
                 <th>Date</th>
                 <th>Receptionniste</th>
                 <th>Compte rendu</th>
+                <th>Solde</th>
                 <th>Statut</th>
                 <th>Date création</th>
                 <th>Date modification</th>
@@ -75,6 +76,7 @@
                        class="text-primary" (click)="generateCompteRendu(seance)"><i
                   class="fa fa-file-pdf text-danger"></i> CR_{{seance.date | date: 'dd/MM/yyyy'}}.pdf</a></td>
 <!--                <td>{{seance.status.name}}</td>-->
+                <td class="text-dark font-weight-bold">{{seance.solde}} €</td>
                 <td>
                   <span class="badge "
                         [ngClass]="seance.status.name == 'CREEE' ? 'badge-success' : 'badge-danger'">
@@ -161,7 +163,7 @@
                 <label for="name" class="">Réceptionniste</label>
                 <select name="name" id="name" class="form-control" formControlName="user">
                   <option value="" selected disabled hidden>Sélectionner un membre</option>
-                  <option *ngFor="let user of users" [value]="user.userId">{{user.firstName}}</option>
+                  <option *ngFor="let user of users" [value]="user.userId">{{user.firstName | titlecase}}&nbsp;{{user.lastName | titlecase}}</option>
                 </select>
               </div>
               <div
